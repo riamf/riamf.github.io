@@ -9,12 +9,14 @@
   
     <meta name="twitter:card" content="summary"/>
     
-      <meta name="twitter:image" content="https://riamf.github.io/images/avatar.png" />
+      <meta name="twitter:image" content="https://riamf.github.ioimages/avatar.png" />
     
   
   
   <meta name="twitter:title" content="Metrics_and_estimates"/>
-  <meta name="twitter:description" content=" Metrics and estimates "/>
+  <meta name="twitter:description" content="Metrics and estimates Location Estimates Mean Most basic estimate for location. As simple as possible it is just and average value from a list of values described with equation:
+$$\frac{\sum\limits_{i=1}^n x_i}{n}$$
+Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset."/>
   
     <meta name="twitter:site" content="@@riamf1"/>
   
@@ -31,12 +33,12 @@
 		<meta name="description" content="Learning Notes">
 		<meta name="generator" content="Hugo 0.45.1" />
 		<title>Metrics_and_estimates &middot; Learning Notes</title>
-		<link rel="shortcut icon" href="https://riamf.github.io/images/favicon.ico">
-		<link rel="stylesheet" href="https://riamf.github.io/css/style.css">
-		<link rel="stylesheet" href="https://riamf.github.io/css/highlight.css">
+		<link rel="shortcut icon" href="https://riamf.github.ioimages/favicon.ico">
+		<link rel="stylesheet" href="https://riamf.github.iocss/style.css">
+		<link rel="stylesheet" href="https://riamf.github.iocss/highlight.css">
 
 		
-		<link rel="stylesheet" href="https://riamf.github.io/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://riamf.github.iocss/font-awesome.min.css">
 		
 
 		
@@ -48,11 +50,11 @@
        <nav class="main-nav">
 	
 	
-		<a href='https://riamf.github.io/'> <span class="arrow">←</span>Home</a>
+		<a href='https://riamf.github.io'> <span class="arrow">←</span>Home</a>
 	
-	<a href='https://riamf.github.io/posts'>Archive</a>
-	<a href='https://riamf.github.io/tags'>Tags</a>
-	<a href='https://riamf.github.io/about'>About</a>
+	<a href='https://riamf.github.ioposts'>Archive</a>
+	<a href='https://riamf.github.iotags'>Tags</a>
+	<a href='https://riamf.github.ioabout'>About</a>
 
 	
 
@@ -68,13 +70,13 @@
                     </h1>
                     <h2 class="headline">
                     Jul 31, 2018 18:47
-                    · 3 words
-                    · 1 minute read
+                    · 287 words
+                    · 2 minute read
                       <span class="tags">
                       
                       
                           
-                              <a href="https://riamf.github.io/tags/statistics">statistics</a>
+                              <a href="https://riamf.github.iotags/statistics">statistics</a>
                           
                       
                       
@@ -86,7 +88,21 @@
                     <div id="toc">
                       <nav id="TableOfContents">
 <ul>
-<li><a href="#metrics-and-estimates">Metrics and estimates</a></li>
+<li><a href="#metrics-and-estimates">Metrics and estimates</a>
+<ul>
+<li><a href="#location-estimates">Location Estimates</a>
+<ul>
+<li><a href="#mean">Mean</a>
+<ul>
+<li><a href="#trimmed-mean">Trimmed Mean</a></li>
+</ul></li>
+<li><a href="#weighted-mean">Weighted Mean</a></li>
+<li><a href="#median">Median</a></li>
+<li><a href="#weighted-median">Weighted Median</a></li>
+<li><a href="#robust">Robust</a></li>
+<li><a href="#outlier">Outlier</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </nav>
                     </div>
@@ -96,6 +112,49 @@
                     
 
 <h1 id="metrics-and-estimates">Metrics and estimates</h1>
+
+<h2 id="location-estimates">Location Estimates</h2>
+
+<h3 id="mean">Mean</h3>
+
+<p>Most basic estimate for location.
+As simple as possible it is just and average value from a list of values described with equation:</p>
+
+<p>$$\frac{\sum\limits_{i=1}^n x_i}{n}$$</p>
+
+<h4 id="trimmed-mean">Trimmed Mean</h4>
+
+<p>It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset.
+p</p>
+
+<h3 id="weighted-mean">Weighted Mean</h3>
+
+<p>It is calculated by multiplying every value by its weight and deviding their sum by the sum of weights. See the formula:</p>
+
+<p>$$ \frac{\sum\limits_{i=1}^n w_ix_i}{\sum w_i} $$</p>
+
+<p>It is very usefull when you want to distinct  that some values are more important than others.</p>
+
+<p>When dataset has data that represents some different groups and measuring them equally would not reflect real world example.</p>
+
+<h3 id="median">Median</h3>
+
+<p>Basically it is a middle value on a sorted list of values.
+If there is an even number of values then meadin is computed from avearge of two middle values.</p>
+
+<h3 id="weighted-median">Weighted Median</h3>
+
+<p>It is computed that there is a half weights above and below median value.
+First data needds to be sorted then insted of picking middle value we pick such a value that half of the weights are above this value and other half is below.</p>
+
+<h3 id="robust">Robust</h3>
+
+<p>We call estimate robust when it is the best measure of location in dataset that does not have normal distribution. It is an estimate that is not influenced by outliers. It should be resistant to errors.</p>
+
+<h3 id="outlier">Outlier</h3>
+
+<p>Outlier is a value from dataset that is very distant from any other value.
+But this definition might be connected to the nature of the dataset.</p>
 
                 </section>
             </article>
@@ -144,13 +203,15 @@
     <p class="small">
         Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
     </p>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </footer>
 
         </section>
 
-        <script src="https://riamf.github.io/js/jquery-3.3.1.min.js"></script>
-<script src="https://riamf.github.io/js/main.js"></script>
-<script src="https://riamf.github.io/js/highlight.min.js"></script>
+        <script src="https://riamf.github.iojs/jquery-3.3.1.min.js"></script>
+<script src="https://riamf.github.iojs/main.js"></script>
+<script src="https://riamf.github.iojs/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
 
