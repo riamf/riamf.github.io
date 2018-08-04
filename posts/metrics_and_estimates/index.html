@@ -13,8 +13,9 @@
     
   
   
-  <meta name="twitter:title" content="Metrics_and_estimates"/>
-  <meta name="twitter:description" content="Metrics and estimates Location Estimates Mean Most basic estimate for location. As simple as possible it is just and average value from a list of values described with equation:  Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset."/>
+  <meta name="twitter:title" content="Metrics and estimates"/>
+  <meta name="twitter:description" content="Mean Most basic estimate for location. As simple as possible it is just and average value from a list of values described with equation:
+Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset."/>
   
     <meta name="twitter:site" content="@@riamf1"/>
   
@@ -30,7 +31,7 @@
 		<meta name="author" content="Pawel Kowalczuk">
 		<meta name="description" content="Learning Notes">
 		<meta name="generator" content="Hugo 0.45.1" />
-		<title>Metrics_and_estimates &middot; Learning Notes</title>
+		<title>Metrics and estimates &middot; Learning Notes</title>
 		<link rel="shortcut icon" href="https://riamf.github.io/images/favicon.ico">
 		<link rel="stylesheet" href="https://riamf.github.io/css/style.css">
 		<link rel="stylesheet" href="https://riamf.github.io/css/highlight.css">
@@ -64,11 +65,11 @@
             <article>
                 <header>
                     <h1>
-                        Metrics_and_estimates
+                        Metrics and estimates
                     </h1>
                     <h2 class="headline">
                     Jul 31, 2018 18:47
-                    · 219 words
+                    · 214 words
                     · 2 minute read
                       <span class="tags">
                       
@@ -86,21 +87,16 @@
                     <div id="toc">
                       <nav id="TableOfContents">
 <ul>
-<li><a href="#metrics-and-estimates">Metrics and estimates</a>
+<li>
 <ul>
-<li><a href="#location-estimates">Location Estimates</a>
-<ul>
-<li><a href="#mean">Mean</a>
-<ul>
+<li><a href="#mean">Mean</a></li>
 <li><a href="#trimmed-mean">Trimmed Mean</a></li>
-</ul></li>
 <li><a href="#weighted-mean">Weighted Mean</a></li>
 <li><a href="#median">Median</a></li>
 <li><a href="#weighted-median">Weighted Median</a></li>
 <li><a href="#trimmed-mean-1">Trimmed Mean</a></li>
 <li><a href="#robust">Robust</a></li>
 <li><a href="#outlier">Outlier</a></li>
-</ul></li>
 </ul></li>
 </ul>
 </nav>
@@ -110,54 +106,44 @@
                 <section id="post-body">
                     
 
-<h1 id="metrics-and-estimates">Metrics and estimates</h1>
+<h2 id="mean">Mean</h2>
 
-<h2 id="location-estimates">Location Estimates</h2>
+<p>Most basic estimate for location.
+As simple as possible it is just and average value from a list of values described with equation:</p>
 
-<h3 id="mean">Mean</h3>
+<h2 id="trimmed-mean">Trimmed Mean</h2>
 
-<pre><code>Most basic estimate for location.
-As simple as possible it is just and average value from a list of values described with equation:
-</code></pre>
+<p>It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset.</p>
 
-<h4 id="trimmed-mean">Trimmed Mean</h4>
+<h2 id="weighted-mean">Weighted Mean</h2>
 
-<pre><code>It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset.
-</code></pre>
+<p>It is calculated by multiplying every value by its weight and deviding their sum by the sum of weights. See the formula:</p>
 
-<h3 id="weighted-mean">Weighted Mean</h3>
+<p>It is very usefull when you want to distinct  that some values are more important than others.</p>
 
-<pre><code>It is calculated by multiplying every value by its weight and deviding their sum by the sum of weights. See the formula:
+<p>When dataset has data that represents some different groups and measuring them equally would not reflect real world example.</p>
 
+<h2 id="median">Median</h2>
 
-It is very usefull when you want to distinct  that some values are more important than others.
+<p>Basically it is a middle value on a sorted list of values.
+If there is an even number of values then meadin is computed from avearge of two middle values.</p>
 
-When dataset has data that represents some different groups and measuring them equally would not reflect real world example.
-</code></pre>
+<h2 id="weighted-median">Weighted Median</h2>
 
-<h3 id="median">Median</h3>
+<p>It is computed that there is a half weights above and below median value.
+First data needds to be sorted then insted of picking middle value we pick such a value that half of the weights are above this value and other half is below.</p>
 
-<pre><code>Basically it is a middle value on a sorted list of values. 
-If there is an even number of values then meadin is computed from avearge of two middle values.
-</code></pre>
+<h2 id="trimmed-mean-1">Trimmed Mean</h2>
 
-<h3 id="weighted-median">Weighted Median</h3>
+<h2 id="robust">Robust</h2>
 
-<pre><code>It is computed that there is a half weights above and below median value.
-First data needds to be sorted then insted of picking middle value we pick such a value that half of the weights are above this value and other half is below.
-</code></pre>
-
-<h3 id="trimmed-mean-1">Trimmed Mean</h3>
-
-<h3 id="robust">Robust</h3>
-
-<h3 id="outlier">Outlier</h3>
+<h2 id="outlier">Outlier</h2>
 
                 </section>
             </article>
 
             
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2friamf.github.io%2fposts%2fmetrics_and_estimates%2f - Metrics_and_estimates by @%40riamf1"><span class="icon-twitter"> tweet</span></a>
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2friamf.github.io%2fposts%2fmetrics_and_estimates%2f - Metrics%20and%20estimates by @%40riamf1"><span class="icon-twitter"> tweet</span></a>
 
 <a class="facebook" href="#" onclick="
     window.open(

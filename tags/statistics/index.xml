@@ -12,12 +12,13 @@
     
     
     <item>
-      <title>Metrics_and_estimates</title>
+      <title>Metrics and estimates</title>
       <link>https://riamf.github.io/posts/metrics_and_estimates/</link>
       <pubDate>Tue, 31 Jul 2018 18:47:18 +0200</pubDate>
       
       <guid>https://riamf.github.io/posts/metrics_and_estimates/</guid>
-      <description>Metrics and estimates Location Estimates Mean Most basic estimate for location. As simple as possible it is just and average value from a list of values described with equation:  Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset.</description>
+      <description>Mean Most basic estimate for location. As simple as possible it is just and average value from a list of values described with equation:
+Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset.</description>
     </item>
     
   </channel>
