@@ -70,7 +70,7 @@ Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some 
                     </h1>
                     <h2 class="headline">
                     Jul 31, 2018 18:47
-                    · 218 words
+                    · 304 words
                     · 2 minute read
                       <span class="tags">
                       
@@ -96,8 +96,8 @@ Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some 
 <li><a href="#median">Median</a></li>
 <li><a href="#weighted-median">Weighted Median</a></li>
 <li><a href="#trimmed-mean-1">Trimmed Mean</a></li>
-<li><a href="#robust">Robust</a></li>
 <li><a href="#outlier">Outlier</a></li>
+<li><a href="#robust-estimate">Robust estimate</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -122,6 +122,8 @@ As simple as possible it is just and average value from a list of values describ
 
 <p>It is calculated by multiplying every value by its weight and deviding their sum by the sum of weights. See the formula:</p>
 
+<p>$$ \frac{\sum\limits_{i=1}^n w_ix_i}{\sum w_i} $$</p>
+
 <p>It is very usefull when you want to distinct  that some values are more important than others.</p>
 
 <p>When dataset has data that represents some different groups and measuring them equally would not reflect real world example.</p>
@@ -138,9 +140,15 @@ First data needds to be sorted then insted of picking middle value we pick such 
 
 <h2 id="trimmed-mean-1">Trimmed Mean</h2>
 
-<h2 id="robust">Robust</h2>
+<p>This value is computed by droping some fixed number of values from the beginning and from the end of sorted dataset. Trimmed mean eliminates the influence of extreme values.</p>
 
 <h2 id="outlier">Outlier</h2>
+
+<p>Extream cases that exist in dataset. Outlier for example is every value that is very distant from any other value in dataset.</p>
+
+<h2 id="robust-estimate">Robust estimate</h2>
+
+<p>Estimate that is not influenced by outliers. We can call median a robust estimate cause it does not care about outliers in the datase, computing median omits extreme values.</p>
 
                 </section>
             </article>
