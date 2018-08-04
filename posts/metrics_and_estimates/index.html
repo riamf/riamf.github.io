@@ -14,7 +14,7 @@
   
   
   <meta name="twitter:title" content="Metrics_and_estimates"/>
-  <meta name="twitter:description" content=" Metrics and estimates "/>
+  <meta name="twitter:description" content="Metrics and estimates Location Estimates Mean Most basic estimate for location. As simple as possible it is just and average value from a list of values described with equation:  Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset."/>
   
     <meta name="twitter:site" content="@@riamf1"/>
   
@@ -68,8 +68,8 @@
                     </h1>
                     <h2 class="headline">
                     Jul 31, 2018 18:47
-                    · 3 words
-                    · 1 minute read
+                    · 219 words
+                    · 2 minute read
                       <span class="tags">
                       
                       
@@ -86,7 +86,22 @@
                     <div id="toc">
                       <nav id="TableOfContents">
 <ul>
-<li><a href="#metrics-and-estimates">Metrics and estimates</a></li>
+<li><a href="#metrics-and-estimates">Metrics and estimates</a>
+<ul>
+<li><a href="#location-estimates">Location Estimates</a>
+<ul>
+<li><a href="#mean">Mean</a>
+<ul>
+<li><a href="#trimmed-mean">Trimmed Mean</a></li>
+</ul></li>
+<li><a href="#weighted-mean">Weighted Mean</a></li>
+<li><a href="#median">Median</a></li>
+<li><a href="#weighted-median">Weighted Median</a></li>
+<li><a href="#trimmed-mean-1">Trimmed Mean</a></li>
+<li><a href="#robust">Robust</a></li>
+<li><a href="#outlier">Outlier</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </nav>
                     </div>
@@ -96,6 +111,47 @@
                     
 
 <h1 id="metrics-and-estimates">Metrics and estimates</h1>
+
+<h2 id="location-estimates">Location Estimates</h2>
+
+<h3 id="mean">Mean</h3>
+
+<pre><code>Most basic estimate for location.
+As simple as possible it is just and average value from a list of values described with equation:
+</code></pre>
+
+<h4 id="trimmed-mean">Trimmed Mean</h4>
+
+<pre><code>It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset.
+</code></pre>
+
+<h3 id="weighted-mean">Weighted Mean</h3>
+
+<pre><code>It is calculated by multiplying every value by its weight and deviding their sum by the sum of weights. See the formula:
+
+
+It is very usefull when you want to distinct  that some values are more important than others.
+
+When dataset has data that represents some different groups and measuring them equally would not reflect real world example.
+</code></pre>
+
+<h3 id="median">Median</h3>
+
+<pre><code>Basically it is a middle value on a sorted list of values. 
+If there is an even number of values then meadin is computed from avearge of two middle values.
+</code></pre>
+
+<h3 id="weighted-median">Weighted Median</h3>
+
+<pre><code>It is computed that there is a half weights above and below median value.
+First data needds to be sorted then insted of picking middle value we pick such a value that half of the weights are above this value and other half is below.
+</code></pre>
+
+<h3 id="trimmed-mean-1">Trimmed Mean</h3>
+
+<h3 id="robust">Robust</h3>
+
+<h3 id="outlier">Outlier</h3>
 
                 </section>
             </article>
