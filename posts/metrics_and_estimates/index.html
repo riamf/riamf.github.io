@@ -70,8 +70,8 @@ Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some 
                     </h1>
                     <h2 class="headline">
                     Jul 31, 2018 18:47
-                    · 304 words
-                    · 2 minute read
+                    · 574 words
+                    · 3 minute read
                       <span class="tags">
                       
                       
@@ -98,6 +98,15 @@ Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some 
 <li><a href="#trimmed-mean-1">Trimmed Mean</a></li>
 <li><a href="#outlier">Outlier</a></li>
 <li><a href="#robust-estimate">Robust estimate</a></li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#mean-1">Mean</a></li>
+<li><a href="#trimmed-mean-2">Trimmed Mean</a></li>
+<li><a href="#median-1">Median</a></li>
+<li><a href="#weighted-mean-1">Weighted Mean</a></li>
+<li><a href="#outlier-1">Outlier</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -149,6 +158,91 @@ First data needds to be sorted then insted of picking middle value we pick such 
 <h2 id="robust-estimate">Robust estimate</h2>
 
 <p>Estimate that is not influenced by outliers. We can call median a robust estimate cause it does not care about outliers in the datase, computing median omits extreme values.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>To perform examples I will use <a href="http://tomslee.net/airbnb-data-collection-get-the-data">Airbnb publicly available dataset</a>. I picked dataset that contains rooms availabe for rent in Warsaw and cost (in US$) per night. This is how the dataset looks like:</p>
+
+<table>
+<thead>
+<tr>
+<th>room_id</th>
+<th>price</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>110.0</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>118.0</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>72.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>For computation I will use python3 and to load data I want to go with <code>pandas</code> framework cause if is extreamly easy to use <code>DataFrame</code> to load and do any data manipulation with it.</p>
+
+<h3 id="mean-1">Mean</h3>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>    <span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    data <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;./data/airbnb_warsaw_2017.csv&#39;</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    n <span style="color:#f92672">=</span> len(data)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>    mean_price <span style="color:#f92672">=</span> sum(data<span style="color:#f92672">.</span>price)<span style="color:#f92672">/</span>n
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>    <span style="color:#75715e"># 54.68495536686262</span></code></pre></div>
+
+<h3 id="trimmed-mean-2">Trimmed Mean</h3>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>    sorted_price <span style="color:#f92672">=</span> sorted(data<span style="color:#f92672">.</span>price)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    trim_size <span style="color:#f92672">=</span> int(<span style="color:#ae81ff">0.1</span> <span style="color:#f92672">*</span> len(data))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    trimed_price <span style="color:#f92672">=</span> sorted_price[trim_size:(len(data) <span style="color:#f92672">-</span> trim_size)]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    trimmed_mean <span style="color:#f92672">=</span> sum(trimed_price)<span style="color:#f92672">/</span>len(trimed_price)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>    trimmed_mean
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>    <span style="color:#75715e"># 45.97714285714286</span></code></pre></div>
+
+<h3 id="median-1">Median</h3>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>    size <span style="color:#f92672">=</span> len(sorted_price)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#75715e"># 4593</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    median_index <span style="color:#f92672">=</span> math<span style="color:#f92672">.</span>ceil(size<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    sorted_price[median_index]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>    <span style="color:#75715e"># 42.0</span></code></pre></div>
+
+<h3 id="weighted-mean-1">Weighted Mean</h3>
+
+<p>This dataset has three types of rooms available, lets create weights mapping for them:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>    mapping <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Entire home/apt&#34;</span>: <span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#34;Private room&#34;</span> :<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;Shared room&#34;</span>: <span style="color:#ae81ff">1</span>}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    data[<span style="color:#e6db74">&#39;weight&#39;</span>] <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>room_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x: mapping[x])</code></pre></div>
+
+<p>This means that most important for us is type called <code>Entire home/apt</code>.</p>
+
+<p>Now lets calculate weighted mean for price:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>    weighted_mean <span style="color:#f92672">=</span> sum(data<span style="color:#f92672">.</span>weight <span style="color:#f92672">*</span> data<span style="color:#f92672">.</span>price)<span style="color:#f92672">/</span>sum(data<span style="color:#f92672">.</span>weight)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#75715e"># 57.14528152260111</span></code></pre></div>
+
+<h3 id="outlier-1">Outlier</h3>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>    sorted_price[size<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#75715e"># 3000</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    sorted_price[<span style="color:#ae81ff">0</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    <span style="color:#75715e"># 3</span></code></pre></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>We can clearly see that this values differ but this difference is not a huge one, it always depends on data.
+Basic metric for location is mean but as it can be seen in abowe example it can be sensitive to extreme values.
+Other metrics like <code>median</code> or <code>tremmed mean</code> are more robust.</p>
 
                 </section>
             </article>
