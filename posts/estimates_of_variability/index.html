@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 
+			
+  
+    <meta name="twitter:card" content="summary"/>
+    
+      <meta name="twitter:image" content="https://riamf.github.io/images/avatar.png" />
+    
+  
+  
+  <meta name="twitter:title" content="Estimates of variability"/>
+  <meta name="twitter:description" content="Deviations The most widely used estimates are based on differences in data, deviations, like observation and given estimate of location. Take for example this set {1,2,3}. Mean equals 2 and deviations are:
+1. 2 - 1 = 1 2. 2 - 2 = 0 3. 2 - 3 = -1  This deviations tell us how dispersed observations are around the central value. What is also interesting is that the sum od deviations from the mean value equals 0."/>
+  
+    <meta name="twitter:site" content="@@riamf1"/>
+  
+  
+  
+  
+    <meta name="twitter:creator" content="@Pawel Kowalczuk"/>
+  
+
+
+
+		
+		<meta name="author" content="Pawel Kowalczuk">
+		<meta name="description" content="Learning Notes">
+		<meta name="generator" content="Hugo 0.45.1" />
+		<title>Estimates of variability &middot; Learning Notes</title>
+		<link rel="shortcut icon" href="https://riamf.github.io/images/favicon.ico">
+		<link rel="stylesheet" href="https://riamf.github.io/css/style.css">
+		<link rel="stylesheet" href="https://riamf.github.io/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="https://riamf.github.io/css/font-awesome.min.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://riamf.github.io/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://riamf.github.io/posts'>Archive</a>
+	<a href='https://riamf.github.io/tags'>Tags</a>
+	<a href='https://riamf.github.io/about'>About</a>
+
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Estimates of variability
+                    </h1>
+                    <h2 class="headline">
+                    Aug 18, 2018 16:08
+                    · 371 words
+                    · 2 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="https://riamf.github.io/tags/statistics">statistics</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                    <div id="toc">
+                      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#deviations">Deviations</a></li>
+<li><a href="#mean-absolute-deviation">Mean absolute deviation</a></li>
+<li><a href="#variance-standard-deviation">Variance &amp; Standard deviation</a></li>
+<li><a href="#degrees-of-freedom">Degrees of freedom</a></li>
+<li><a href="#median-absolute-deviation">Median absolute deviation</a></li>
+</ul></li>
+</ul>
+</nav>
+                    </div>
+                  
+                
+                <section id="post-body">
+                    
+
+<h2 id="deviations">Deviations</h2>
+
+<p>The most widely used estimates are based on differences in data, deviations, like observation and given estimate of location. Take for example this set <code>{1,2,3}</code>. Mean equals <code>2</code> and deviations are:</p>
+
+<pre><code>1. 2 - 1 = 1
+2. 2 - 2 = 0
+3. 2 - 3 = -1
+</code></pre>
+
+<p>This deviations tell us how dispersed observations are around the central value. What is also interesting is that the sum od deviations from the mean value equals 0.</p>
+
+<h2 id="mean-absolute-deviation">Mean absolute deviation</h2>
+
+<p>So how to get some information from deviations. We can take absolute value from every deviation here it would be sum from set of <code>{1,0,1} = 2</code> and divide it by number of observations so it is just like counting mean of absolute deviations
+<code>2/3 = 0.6666</code></p>
+
+<h2 id="variance-standard-deviation">Variance &amp; Standard deviation</h2>
+
+<p>Probably the best known estimates of variability. Variance is an avarge of squared deviations computed with equation</p>
+
+<p>$$ s^2 =  \frac{\sum(x - \bar{x})^2}{n-1} $$
+$$ s = \sqrt{s^2} $$</p>
+
+<p>Standard deviation is easier to interpret since it is on the same scale as the original data set.</p>
+
+<h2 id="degrees-of-freedom">Degrees of freedom</h2>
+
+<p>I always wonder why there is <code>n-1</code> used in some statistical equations. Most of the time <code>n</code> is so large that it does not matter that there is minus one there cause it has really low influence. Nonetheless most of the time you want to make estimate about the population based on a sample so if you use whole <code>n</code> you will underestimate. This is referred to as a biased estimate but if instead you divide by <code>n-1</code> then the estimate becomes unbiased. Number of degrees of freedom takes into account number of constraints in computing estimate. So for example when computing standard deviation it depends on computing mean value and that is one constraint so there are <code>n-1</code> degrees of freedom left.</p>
+
+<h2 id="median-absolute-deviation">Median absolute deviation</h2>
+
+<p>Variance, standard deviation or mean absolute deviation, neither of them is robust to outliers. But as before, here we can also compute median using the equation:</p>
+
+<p>$$ Median(\left | x_1-m \right |, \left | x_2-m \right |&hellip;\left | x_N-m \right |) $$</p>
+
+<p>Where <code>m</code> is observations median value. It is called <code>MAD</code> of simply median absolute deviation and is not influenced to outliers.</p>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2friamf.github.io%2fposts%2festimates_of_variability%2f - Estimates%20of%20variability by @%40riamf1"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/riamf">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/riamf1">
+        <i class="fa fa-twitter-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Pawel Kowalczuk
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</footer>
+
+        </section>
+
+        <script src="https://riamf.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://riamf.github.io/js/main.js"></script>
+<script src="https://riamf.github.io/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+    </body>
+</html>

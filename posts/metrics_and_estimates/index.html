@@ -16,7 +16,7 @@
   <meta name="twitter:title" content="Metrics and estimates"/>
   <meta name="twitter:description" content="Mean Most basic estimate for location. As simple as possible it is just and average value from a list of values described with equation:
 $$ \frac{\sum\limits_{i=1}^n x_i}{n} $$
-Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset."/>
+Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from collection beginning and end. After that normal average value is computed. It is Very useful when we want to eliminate the influence of extreme values in data set."/>
   
     <meta name="twitter:site" content="@@riamf1"/>
   
@@ -70,7 +70,7 @@ Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some 
                     </h1>
                     <h2 class="headline">
                     Jul 31, 2018 18:47
-                    · 574 words
+                    · 583 words
                     · 3 minute read
                       <span class="tags">
                       
@@ -125,43 +125,43 @@ As simple as possible it is just and average value from a list of values describ
 
 <h2 id="trimmed-mean">Trimmed Mean</h2>
 
-<p>It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset.</p>
+<p>It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from collection beginning and end. After that normal average value is computed. It is Very useful when we want to eliminate the influence of extreme values in data set.</p>
 
 <h2 id="weighted-mean">Weighted Mean</h2>
 
-<p>It is calculated by multiplying every value by its weight and deviding their sum by the sum of weights. See the formula:</p>
+<p>It is calculated by multiplying every value by its weight and dividing their sum by the sum of weights. See the formula:</p>
 
 <p>$$ \frac{\sum\limits_{i=1}^n w_ix_i}{\sum w_i} $$</p>
 
-<p>It is very usefull when you want to distinct  that some values are more important than others.</p>
+<p>It is very useful when you want to distinct  that some values are more important than others.</p>
 
-<p>When dataset has data that represents some different groups and measuring them equally would not reflect real world example.</p>
+<p>When data set has data that represents some different groups and measuring them equally would not reflect real world example.</p>
 
 <h2 id="median">Median</h2>
 
 <p>Basically it is a middle value on a sorted list of values.
-If there is an even number of values then meadin is computed from avearge of two middle values.</p>
+If there is an even number of values then median is computed from average of two middle values.</p>
 
 <h2 id="weighted-median">Weighted Median</h2>
 
 <p>It is computed that there is a half weights above and below median value.
-First data needds to be sorted then insted of picking middle value we pick such a value that half of the weights are above this value and other half is below.</p>
+First data needs to be sorted then instead of picking middle value we pick such a value that half of the weights are above this value and other half is below.</p>
 
 <h2 id="trimmed-mean-1">Trimmed Mean</h2>
 
-<p>This value is computed by droping some fixed number of values from the beginning and from the end of sorted dataset. Trimmed mean eliminates the influence of extreme values.</p>
+<p>This value is computed by dropping some fixed number of values from the beginning and from the end of sorted data set. Trimmed mean eliminates the influence of extreme values.</p>
 
 <h2 id="outlier">Outlier</h2>
 
-<p>Extream cases that exist in dataset. Outlier for example is every value that is very distant from any other value in dataset.</p>
+<p>Extreme cases that exist in data set. Outlier for example is every value that is very distant from any other value in data set.</p>
 
 <h2 id="robust-estimate">Robust estimate</h2>
 
-<p>Estimate that is not influenced by outliers. We can call median a robust estimate cause it does not care about outliers in the datase, computing median omits extreme values.</p>
+<p>Estimate that is not influenced by outliers. We can call median a robust estimate cause it does not care about outliers in the data set, computing median omits extreme values.</p>
 
 <h2 id="examples">Examples</h2>
 
-<p>To perform examples I will use <a href="http://tomslee.net/airbnb-data-collection-get-the-data">Airbnb publicly available dataset</a>. I picked dataset that contains rooms availabe for rent in Warsaw and cost (in US$) per night. This is how the dataset looks like:</p>
+<p>To perform examples I will use <a href="http://tomslee.net/airbnb-data-collection-get-the-data">Airbnb publicly available data set</a>. I picked data set that contains rooms available for rent in Warsaw and cost (in US$) per night. This is how the data set looks like:</p>
 
 <table>
 <thead>
@@ -189,7 +189,7 @@ First data needds to be sorted then insted of picking middle value we pick such 
 </tbody>
 </table>
 
-<p>For computation I will use python3 and to load data I want to go with <code>pandas</code> framework cause if is extreamly easy to use <code>DataFrame</code> to load and do any data manipulation with it.</p>
+<p>For computation I will use python3 and to load data I want to go with <code>pandas</code> framework cause if is extremely easy to use <code>DataFrame</code> to load and do any data manipulation with it.</p>
 
 <h3 id="mean-1">Mean</h3>
 
@@ -204,8 +204,8 @@ First data needds to be sorted then insted of picking middle value we pick such 
 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>    sorted_price <span style="color:#f92672">=</span> sorted(data<span style="color:#f92672">.</span>price)
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    trim_size <span style="color:#f92672">=</span> int(<span style="color:#ae81ff">0.1</span> <span style="color:#f92672">*</span> len(data))
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    trimed_price <span style="color:#f92672">=</span> sorted_price[trim_size:(len(data) <span style="color:#f92672">-</span> trim_size)]
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    trimmed_mean <span style="color:#f92672">=</span> sum(trimed_price)<span style="color:#f92672">/</span>len(trimed_price)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    trimmed_price <span style="color:#f92672">=</span> sorted_price[trim_size:(len(data) <span style="color:#f92672">-</span> trim_size)]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    trimmed_mean <span style="color:#f92672">=</span> sum(trimmed_price)<span style="color:#f92672">/</span>len(trimmed_price)
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>    trimmed_mean
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>    <span style="color:#75715e"># 45.97714285714286</span></code></pre></div>
 
@@ -241,8 +241,8 @@ First data needds to be sorted then insted of picking middle value we pick such 
 <h2 id="conclusion">Conclusion</h2>
 
 <p>We can clearly see that this values differ but this difference is not a huge one, it always depends on data.
-Basic metric for location is mean but as it can be seen in abowe example it can be sensitive to extreme values.
-Other metrics like <code>median</code> or <code>tremmed mean</code> are more robust.</p>
+Basic metric for location is mean but as it can be seen in above example it can be sensitive to extreme values.
+Other metrics like <code>median</code> or <code>trimmed mean</code> are more robust.</p>
 
                 </section>
             </article>

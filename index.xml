@@ -6,10 +6,20 @@
     <description>Recent content on Learning Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Jul 2018 18:47:18 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 18 Aug 2018 16:08:06 +0200</lastBuildDate>
     
 	<atom:link href="https://riamf.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Estimates of variability</title>
+      <link>https://riamf.github.io/posts/estimates_of_variability/</link>
+      <pubDate>Sat, 18 Aug 2018 16:08:06 +0200</pubDate>
+      
+      <guid>https://riamf.github.io/posts/estimates_of_variability/</guid>
+      <description>Deviations The most widely used estimates are based on differences in data, deviations, like observation and given estimate of location. Take for example this set {1,2,3}. Mean equals 2 and deviations are:
+1. 2 - 1 = 1 2. 2 - 2 = 0 3. 2 - 3 = -1  This deviations tell us how dispersed observations are around the central value. What is also interesting is that the sum od deviations from the mean value equals 0.</description>
+    </item>
     
     <item>
       <title>Metrics and estimates</title>
@@ -19,7 +29,7 @@
       <guid>https://riamf.github.io/posts/metrics_and_estimates/</guid>
       <description>Mean Most basic estimate for location. As simple as possible it is just and average value from a list of values described with equation:
 $$ \frac{\sum\limits_{i=1}^n x_i}{n} $$
-Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from colection beginning and end. After that normal avearge value is computed. It is Very usefull when we want to eliminate the influence of extream values in dataset.</description>
+Trimmed Mean It is a small variation of mean. Fist Values are sorted, then some number of values are dropped from collection beginning and end. After that normal average value is computed. It is Very useful when we want to eliminate the influence of extreme values in data set.</description>
     </item>
     
     <item>
