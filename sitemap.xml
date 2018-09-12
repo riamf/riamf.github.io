@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://riamf.github.io/posts/dockerized_grafana_setup/</loc>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://riamf.github.io/posts/estimates_of_variability/</loc>
     <lastmod>2018-08-18T16:08:06+02:00</lastmod>
   </url>
@@ -19,18 +24,43 @@
   
   <url>
     <loc>https://riamf.github.io/categories/</loc>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://riamf.github.io/categories/</loc>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://riamf.github.io/tags/data-analysis/</loc>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://riamf.github.io/tags/docker/</loc>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://riamf.github.io/tags/grafana/</loc>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://riamf.github.io/</loc>
-    <lastmod>2018-08-18T16:08:06+02:00</lastmod>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://riamf.github.io/posts/</loc>
-    <lastmod>2018-08-18T16:08:06+02:00</lastmod>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -48,7 +78,7 @@
   
   <url>
     <loc>https://riamf.github.io/tags/</loc>
-    <lastmod>2018-08-18T16:08:06+02:00</lastmod>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
     <priority>0</priority>
   </url>
   

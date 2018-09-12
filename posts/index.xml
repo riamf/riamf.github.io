@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Learning Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Aug 2018 16:08:06 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 06 Sep 2018 11:54:05 +0200</lastBuildDate>
     
 	<atom:link href="https://riamf.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Grafana in docker setup</title>
+      <link>https://riamf.github.io/posts/dockerized_grafana_setup/</link>
+      <pubDate>Thu, 06 Sep 2018 11:54:05 +0200</pubDate>
+      
+      <guid>https://riamf.github.io/posts/dockerized_grafana_setup/</guid>
+      <description>Grafana Grafana is a tool that lets you visualize metrics. It handles a lot of different data sources and is very flexible. It does not require you to be an it expert to setup and with just few easy steps you can connect to your database or srvice and present live metric that can help you more deeply understand how you system is used. With a system of alerts it tell you about bottlenecks that you might not know of, like moments in time when your system is overloaded and you database is dying.</description>
+    </item>
     
     <item>
       <title>Estimates of variability</title>
