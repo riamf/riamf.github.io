@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Learning Notes</title>
+    <title>Categories on Learning Notes</title>
     <link>https://riamf.github.io/categories/</link>
-    <description>Recent content on Learning Notes</description>
+    <description>Recent content in Categories on Learning Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 06 Sep 2018 11:54:05 +0200</lastBuildDate>
@@ -12,12 +12,25 @@
     
     
     <item>
-      <title>Grafana in docker setup</title>
-      <link>https://riamf.github.io/posts/dockerized_grafana_setup/</link>
+      <title></title>
+      <link>https://riamf.github.io/categories/</link>
       <pubDate>Thu, 06 Sep 2018 11:54:05 +0200</pubDate>
       
-      <guid>https://riamf.github.io/posts/dockerized_grafana_setup/</guid>
-      <description>Grafana Grafana is a tool that lets you visualize metrics. It handles a lot of different data sources and is very flexible. It does not require you to be an it expert to setup and with just few easy steps you can connect to your database or srvice and present live metric that can help you more deeply understand how you system is used. With a system of alerts it tell you about bottlenecks that you might not know of, like moments in time when your system is overloaded and you database is dying.</description>
+      <guid>https://riamf.github.io/categories/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Statistics</title>
+      <link>https://riamf.github.io/categories/statistics/</link>
+      <pubDate>Sat, 18 Aug 2018 16:08:06 +0200</pubDate>
+      
+      <guid>https://riamf.github.io/categories/statistics/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>erstand how your system is used. With a system of alerts it tell you about bottlenecks that you might not know of, like moments in time when your system is overloaded and you database is dying.</description>
     </item>
     
   </channel>
