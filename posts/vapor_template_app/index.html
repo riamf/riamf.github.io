@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 
+			
+  
+    <meta name="twitter:card" content="summary"/>
+    
+      <meta name="twitter:image" content="https://riamf.github.io/images/avatar.png" />
+    
+  
+  
+  <meta name="twitter:title" content="Vapor template app"/>
+  <meta name="twitter:description" content="Vapor A long time ago in a galaxy far, far away&hellip;I used Kitura to try out Swift on server. Simultaneously other frameworks were developed like Perfect and Vapor. At That time it was mostly alpha/beta versions or work in progress, it wasn&rsquo;t as pleasurable as using Swift on machines with Apple sign.
+Recently I decided to go back to that idea and Vapor is what I choose to test. So what is Vapor and from where did it came."/>
+  
+    <meta name="twitter:site" content="@@riamf1"/>
+  
+  
+  
+  
+    <meta name="twitter:creator" content="@Pawel Kowalczuk"/>
+  
+
+
+
+		
+		<meta name="author" content="Pawel Kowalczuk">
+		<meta name="description" content="Learning Notes">
+		<meta name="generator" content="Hugo 0.45.1" />
+		<title>Vapor template app &middot; Learning Notes</title>
+		<link rel="shortcut icon" href="https://riamf.github.io/images/favicon.ico">
+		<link rel="stylesheet" href="https://riamf.github.io/css/style.css">
+		<link rel="stylesheet" href="https://riamf.github.io/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="https://riamf.github.io/css/font-awesome.min.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://riamf.github.io/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://riamf.github.io/posts'>Archive</a>
+	<a href='https://riamf.github.io/tags'>Tags</a>
+	<a href='https://riamf.github.io/about'>About</a>
+
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Vapor template app
+                    </h1>
+                    <h2 class="headline">
+                    Oct 25, 2018 20:53
+                    · 7398 words
+                    · 35 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="https://riamf.github.io/tags/swift">Swift</a>
+                          
+                              <a href="https://riamf.github.io/tags/vapor">Vapor</a>
+                          
+                              <a href="https://riamf.github.io/tags/mysql">MySQL</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                    <div id="toc">
+                      <nav id="TableOfContents">
+<ul>
+<li><a href="#vapor">Vapor</a></li>
+<li><a href="#swift-nio">Swift NIO</a></li>
+<li><a href="#swift-package-manager">Swift Package Manager</a></li>
+<li><a href="#vapor-cli">Vapor CLI</a>
+<ul>
+<li><a href="#using-xcode">Using Xcode</a></li>
+</ul></li>
+<li><a href="#where-is-my-server">Where is my server?</a></li>
+<li><a href="#routes">Routes</a>
+<ul>
+<li><a href="#config">Config</a></li>
+<li><a href="#adding-new-route">Adding new route</a></li>
+<li><a href="#keeping-it-clean">Keeping it clean</a></li>
+<li><a href="#route-parameters">Route Parameters</a></li>
+<li><a href="#other-http-methods">Other HTTP methods</a></li>
+</ul></li>
+<li><a href="#leaf">Leaf</a></li>
+<li><a href="#fluent">Fluent</a>
+<ul>
+<li><a href="#mysql-local-setup">MySQL Local Setup</a></li>
+<li><a href="#adding-fluent-dependency">Adding Fluent dependency</a></li>
+<li><a href="#creating-fluent-model">Creating Fluent Model</a></li>
+<li><a href="#future">Future&hellip;</a>
+<ul>
+<li><a href="#creating-user">Creating User</a></li>
+<li><a href="#extracting-user">Extracting User</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#authentication">Authentication</a>
+<ul>
+<li><a href="#basic-authorization">Basic Authorization</a></li>
+<li><a href="#bearer-authorization">Bearer authorization</a></li>
+<li><a href="#web-session">Web Session</a></li>
+<li><a href="#oauth">OAuth</a></li>
+</ul></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#deployment">Deployment</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul>
+</nav>
+                    </div>
+                  
+                
+                <section id="post-body">
+                    
+
+<h1 id="vapor">Vapor</h1>
+
+<p>A long time ago in a galaxy far, far away&hellip;I used <a href="https://www.kitura.io/">Kitura</a> to try out <code>Swift</code> on server. Simultaneously other frameworks were developed like <a href="https://perfect.org/">Perfect</a> and <a href="https://vapor.codes/">Vapor</a>. At That time it was mostly alpha/beta versions or work in progress, it wasn&rsquo;t as pleasurable as using <code>Swift</code> on machines with Apple sign.</p>
+
+<p>Recently I decided to go back to that idea and <code>Vapor</code> is what I choose to test. So what is <code>Vapor</code> and from where did it came.</p>
+
+<p>Version <code>0.1.0</code> was released just a month after Apple open sourced Swift. Next there was 1.0 version in 2016 and 2.0 in May 2017, but that all is not important because one year later there was version 3.0 that changed everything.</p>
+
+<p>So what was so important about this release was that whole framework got rebuild on top of <code>Swift-NIO</code>. It happened so quickly that even Apple acknowledge the speed with which it was adopted.</p>
+
+<h1 id="swift-nio">Swift NIO</h1>
+
+<p>Where to start&hellip;well I can say short that it is a low level network communication framework for creating high level frameworks or applications, And that would be it. But let me explain some it step by step.</p>
+
+<p>One of the most important things, <a href="https://github.com/apple/swift-nio">Swift-NIO</a> is made and maintained by Apple. You can go on their github and check it out, it is really neat. I guess there is something in what Chris Lattner said about <code>Swift</code>, that the goal is a total world domination, it is on iOS, macOS, tvOS, Linux and we can now build tensors with <a href="https://github.com/tensorflow/swift">Swift for tensorflow</a>, it is really cool, cause Swift is one of my favorite programming languages.</p>
+
+<p>Swift NIO was created at Apple by people from iCloud team. You can check this great <a href="https://www.youtube.com/watch?v=QJ3WG9kRLMo">talk</a> from Norman Maurer one of the creators. Under the hood Swift-NIO is an low level asynchronous, event driven network framework with non-blocking IO operations, it is based on <a href="https://netty.io/">netty</a> but it is written in Swift 😍. If you are already familiar with <code>netty</code> you know that it is very good and there is no need for reinventing the wheel so guys from Apple decided to make it work, and they did, cheers for them 👏. Main thing to point here is that you will not use <code>Swift-NIO</code> at all, the only thing you need to know is that it is there somewhere under the hood making things easier for you. <code>Vapor 3</code> is already using it and provides high level API for developers to easily interact with network events. It might look like I am underestimating the value of <code>Swift-NIO</code> here, but I want to write more about cool stuff from Vapor world and there is a loot!</p>
+
+<h1 id="swift-package-manager">Swift Package Manager</h1>
+
+<p>SPM was released with Swift 3.0 and is supported with this and all above Swift versions. If you come from iOS world then you will recognize it as similar to <a href="https://cocoapods.org/">Cocoapods</a> or <a href="https://github.com/Carthage/Carthage">Carthage</a>, because is actually is doing exactly the same stuff. It is a simple dependency management tool that helps you keep track of, compile and link all external libraries that you use. What is really nice about SPM is that it works on Linux 💯. It is vastly used among desktop macOS apps or Linux apps written in Swift. But beside helping you to manage dependencies you can actually use it to create one, like a library you would like to publish for open source community or one that you are using internally in your company and would like to keep it maintained. If you want to know more about it I recommend checking one of the great tutorials from Ray Wenderlich sites written by Mikael Konutgan <a href="https://www.raywenderlich.com/750-an-introduction-to-the-swift-package-manager">An Introduction to the Swift Package Manager</a> or going directly to SPM <a href="https://swift.org/package-manager/">documentation</a>. Here the only thing you have to know is that if you would like to use some external library in Vapor app, you will have to use SPM to do it and I will present how many times in next chapters.</p>
+
+<h1 id="vapor-cli">Vapor CLI</h1>
+
+<p>So to use Vapor you need to install it. On macOS I am using brew to manage most stuff that I am using so I recommend to just open Terminal and type in:</p>
+
+<pre><code>brew install vapor/tap/vapor
+</code></pre>
+
+<p>This will download and install Vapor Command Line Interface.
+On Linux you just have to type this in console:</p>
+
+<pre><code>eval &quot;$(curl -sL https://apt.vapor.sh)&quot;
+</code></pre>
+
+<p>It will also tell you if your Linux version is supported if any issues appear.</p>
+
+<p>Now that you have this CLI tool installed you can check Swift and Xcode compatibility by running in Terminal:</p>
+
+<pre><code>eval &quot;$(curl -sL check.vapor.sh)&quot;
+</code></pre>
+
+<p>it should tell you something like this:</p>
+
+<p><img src="/images/vapor_check.png" alt="vapor check" /></p>
+
+<p>As you can see I have a warning, this is because I recently updated macOS to Mojave and Xcode to version 10 that also updated my development tools and Swift to 4.2. These versions are not yet fully supported by Vapor team but I did not noticed any issues while playing around with Vapor and hopefully you won&rsquo;t see any.</p>
+
+<p>Ok, now that we have all things ready, go into your working directory and create sample app by typing in Terminal:</p>
+
+<pre><code>vapor new sampleApp
+</code></pre>
+
+<p>This will make  new folder called <code>sampleApp</code>, if you <code>cd</code> inside you will see something like:</p>
+
+<p><img src="/images/vapor_sample_dir.png" alt="vapor sample dir" /></p>
+
+<p>This is a structure of a base Vapor template. It event contains some sample model and SQLite database configuration with implementation of base CRUD operations.</p>
+
+<p>Now, lets Build and run this project.</p>
+
+<p>If you are using macOS and want to use Xcode, please jump here <a href="#using-xcode">Using Xcode</a></p>
+
+<p>For rest of us using command line, to build project type:</p>
+
+<pre><code>vapor build
+</code></pre>
+
+<p>This might take a while cause vapor will fetch all dependencies and then will build everything. After that just use <code>run</code> command:</p>
+
+<pre><code>vapor run
+</code></pre>
+
+<h2 id="using-xcode">Using Xcode</h2>
+
+<p>Vapor has a full support for running in Xcode, to make it happen though you need to generate Xcode project, but don&rsquo;t worry Vapor CLI will help you with that. Just <code>cd</code> into <code>sampleApp</code> directory and type:</p>
+
+<pre><code>vapor xcode -y
+</code></pre>
+
+<p>This command will generate and open Xcode project for you. Having Xcode support is great cause it gives you breakpoints and all LLDB commands just like in iOS/macOS apps 😍. From Xcode you can build and run Vapor app same as you would do with iOS or macOS app by using ⌘+r to build&amp;run or ⌘+b to build ⌘+c to clean etc it all works the same. Sample vapor app comes with two default schemas, one is for tests and one for building and running the app, be sure you have selected correct <code>Run</code> scheme:</p>
+
+<p><img src="/images/vapor_scheme.png" alt="vapor scheme" /></p>
+
+<h1 id="where-is-my-server">Where is my server?</h1>
+
+<p>By performing above  whether in Xcode or in Terminal you will start server and that will make your app accessible locally under port <code>8080</code> so if you go <a href="http://localhost:8080/">here</a> you should see something like this:</p>
+
+<p><img src="/images/vapor_sample_localhost.png" alt="sample localhost" /></p>
+
+<p>Yeah, it works! Now you know how to start and run your project.</p>
+
+<h1 id="routes">Routes</h1>
+
+<p>Let us now talk a bit about routing. How is it happen that when I type into my web browser: <code>http://localhost:8080/index</code> vapor server knows where to go, and knows what code to execute? It is quite simple. Our default project came with a file <code>routes.swift</code>, it already contains few pre-defined routes.
+As you can see everything happens in this routes function:</p>
+
+<pre><code>public func routes(_ router: Router) throws
+</code></pre>
+
+<p>It provides a <code>router</code> object that has ability to extend available routes handled by this sample app.</p>
+
+<h2 id="config">Config</h2>
+
+<p>If you would like to change Vapor configuration, port number or add separation between environments, change cipher configuration and more, it is possible by creating directory called <code>Config</code> in root project folder. There you can put for example <code>server.json</code> file with some new configuration like this:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>{
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#f92672">&#34;port&#34;</span>: <span style="color:#e6db74">&#34;$PORT:8080&#34;</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    <span style="color:#f92672">&#34;host&#34;</span>: <span style="color:#e6db74">&#34;0.0.0.0&#34;</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    <span style="color:#f92672">&#34;securityLayer&#34;</span>: <span style="color:#e6db74">&#34;none&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>}</code></pre></div></p>
+
+<p>To read more about what you can do go to <a href="https://docs.vapor.codes/2.0/configs/config/">vapor documentation</a>.
+Additionally port and hostname can be passed as <code>vapor run</code> parameters like this:</p>
+
+<pre><code>vapor run --hostname 192.168.31.215 --port 6969
+</code></pre>
+
+<h2 id="adding-new-route">Adding new route</h2>
+
+<p>So if I would like to create a new route like this: <code>http://localhost:8080/welcome</code>, that will return welcome message, what I need to do is add it to the router like this inside <code>routes</code> function:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>router.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;welcome&#34;</span>) { <span style="color:#66d9ef">_</span> -&gt; String <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Welcome&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>}</code></pre></div>
+
+<p>Now going <a href="http://localhost:8080/welcome">here</a> I can see expected welcome message:
+<img src="/images/vapor_welcome.png" alt="vapor welcome" /></p>
+
+<p>But what happened here? By sending request to the server for <code>welcome</code> route our sample app goes to the implementation in a closure that was registered under <code>welcome</code>. In this example it simply returns a String message that is then returned to the browser where it is displayed.</p>
+
+<h2 id="keeping-it-clean">Keeping it clean</h2>
+
+<p>As you can probably imagine, one function to handle all routes and their logic that I have planned to my web application is not enough, it will be a mess 😱. There are ways to avoid this situation. Even in sample project there is example <code>TodoController</code> at the bottom of the <code>routes.swift</code> it hides the implementation for all (get|post|delete) operations that goes under <code>todos</code> route.</p>
+
+<p>I still think we could do better&hellip;and we can. There is a protocol called <code>RouteCollection</code>. By conforming to it you can internally provide routes that you desire and also hold the implementation for controller separated from other routes in there. Let&rsquo;s move our <code>welcome</code> route to new object called <code>WelcomeRoutes</code>:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WelcomeRoutes</span>: RouteCollection {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">boot</span>(router: Router) <span style="color:#66d9ef">throws</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>        router.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;welcome&#34;</span>) { <span style="color:#66d9ef">_</span> -&gt; String <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Welcome&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>        }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6</span>}</code></pre></div>
+
+<p>Now we can move the logic implementation from our router to new controller class called <code>WelcomeController</code>:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WelcomeController</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">welcome</span>(<span style="color:#66d9ef">_</span> request: Request) -&gt; String {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Welcome&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>}</code></pre></div>
+
+<p>I know there is not much logic there, we are just returning some dummy String value but still it is good to keep good practices from the beginning. To use this object in <code>WelcomeRoutes</code> collection just do:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WelcomeRoutes</span>: RouteCollection {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">boot</span>(router: Router) <span style="color:#66d9ef">throws</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>        <span style="color:#66d9ef">let</span> controller = WelcomeController()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>        router.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;welcome&#34;</span>, use: controller.welcome)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>}</code></pre></div>
+
+<p>In function <code>boot</code> we have our <code>router</code> so the content of <code>welcome</code> could be just copied from <code>routes.swift</code>, but we wanted to move logic to a controller so closure content was copied to <code>WelcomeController</code>, but that is not all. We still need to somehow tell in the main <code>routes.swift</code> file that we have this new <code>WelcomeRoutes</code> object. To do this <code>routes</code> object has a functionality to register whole collections of routes and registering our new collection will look something like:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#75715e">// routes.swift</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span><span style="color:#66d9ef">try</span> router.register(collection: WelcomeRoutes())</code></pre></div>
+
+<p>Now you can check that going under <a href="http://localhost:8080/welcome">http://localhost:8080/welcome</a> still works but we now have a much more separated implementation for all of it.</p>
+
+<h2 id="route-parameters">Route Parameters</h2>
+
+<p>As you have already noticed probably we declared routes that are using <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods">HTTP GET</a>. So let us personalize our welcome message by reading query parameters. It is pretty simple task as every <code>Request</code> object has <code>QueryContainer</code> structure that represents query, it also implements multiple variations of subscripts so to read for example query value with key <code>name</code> we need to implement something like this:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">welcome</span>(<span style="color:#66d9ef">_</span> request: Request) -&gt; String {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">let</span> name: String = request.query[<span style="color:#e6db74">&#34;name&#34;</span>] ?? <span style="color:#e6db74">&#34;&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Welcome </span><span style="color:#e6db74">\(</span>name<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>}</code></pre></div>
+
+<p>And that is it, now calling <a href="http://localhost:8080/welcome?name=riamf">http://localhost:8080/welcome?name=riamf</a> will add personalized welcome message.</p>
+
+<p>Since most stuff in Vapor works with <code>Codable</code> we can also do magic like this:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span>: Codable {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">let</span> name: String
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span><span style="color:#75715e">/* ... */</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">welcome</span>(<span style="color:#66d9ef">_</span> request: Request) -&gt; String {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>    <span style="color:#66d9ef">let</span> person = <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span> request.query.decode(Person.<span style="color:#66d9ef">self</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6</span>    <span style="color:#66d9ef">let</span> name: String = person.name
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">7</span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Welcome </span><span style="color:#e6db74">\(</span>name<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">8</span>}</code></pre></div>
+
+<p>Here Vapor will decode query into our structure model called <code>Person</code>, nice 😍</p>
+
+<p>Ok, but what if I would like to make an unknown route where I know only that one part of it will contain String value. This is also very easy in Vapor. First lets read parameter from request, we will do this in our welcome route like this:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">welcome</span>(<span style="color:#66d9ef">_</span> request: Request) <span style="color:#66d9ef">throws</span> -&gt; String {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">let</span> name: String = <span style="color:#66d9ef">try</span> request.parameters.next(String.<span style="color:#66d9ef">self</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Welcome </span><span style="color:#e6db74">\(</span>name<span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>}</code></pre></div>
+
+<p>Next we need to tell our router that we want to handle route <code>localhost:8080/welcome/(some String value)</code>, to do this we can add new route to our collection and our already modified handler will do the trick of extracting route parameter:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>router.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;welcome&#34;</span>, String.parameter, use: controller.welcome)</code></pre></div>
+
+<p>Here we are saying that if something that goes after <code>welcome</code> and is a String value we want it to be handled by our welcome implementation where this String value is extracted and passed down to response nice and clear solution.</p>
+
+<h2 id="other-http-methods">Other HTTP methods</h2>
+
+<p>Ah yes, not everything can be done with query parameters and HTTP GET method, there are others like POST for example, very broadly used. Vapor also makes this very easy. With support for <code>Codable</code> it could not be easier, remember our <code>Person</code> structure, we need to do one thing to make it availabe to use with POST content:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Person</span>: Codable, Content {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">let</span> name: String
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>}</code></pre></div>
+
+<p>Adding conformance to <code>Content</code> type does everything we need. Now lets write new POST route in our collection:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>router.post(Person.<span style="color:#66d9ef">self</span>, at: <span style="color:#e6db74">&#34;welcome&#34;</span>, use: controller.postWelcome)</code></pre></div>
+
+<p>As you can see here we are telling our router to look for Content of type <code>Person.self</code> in body of POST request to <code>welcome</code> endpoint and use <code>postWelcome</code> function as a handler</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">postWelcome</span>(<span style="color:#66d9ef">_</span> request: Request, <span style="color:#66d9ef">_</span> person: Person) -&gt; String {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Welcome </span><span style="color:#e6db74">\(</span>person.name<span style="color:#e6db74">)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>}</code></pre></div>
+
+<p>This is really nice, cause we see here that we already have unwrapped value of our parameter in handler function, ready to be used 👌. Now to check if this actually works we need to make a POST call to our server like this:</p>
+
+<pre><code>curl --request POST \
+--data '{&quot;name&quot;: &quot;riamf&quot;}' \
+--header &quot;Content-Type: application/json&quot; \
+http://localhost:8080/welcome
+</code></pre>
+
+<p>And it works just fine.</p>
+
+<p>There are other HTTP methods that are supported by Vapor, but their implementation is very similar to what we saw already. I think you can see that this is very easy to create advance routing in your own Vapor app.</p>
+
+<h1 id="leaf">Leaf</h1>
+
+<p>So what is <a href="https://github.com/vapor/leaf">Leaf</a>? It is a Vapor way of creating front-end applications, a very powerful templating language. It is not like whole Angular or Rails that provides a lot of functionality out of the box but it has I would say a similar templating functionalities for creating web page templates.</p>
+
+<p>How to use it in Vapor project is very simple. With Swift Package Manager, cause this is a main dependency management system that is used in Vapor, most of this stuff is simple, you just need to add a Leaf package to the app like this:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">PackageDescription</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span><span style="color:#66d9ef">let</span> package = Package(
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span>    name: <span style="color:#e6db74">&#34;vapor_base&#34;</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>    dependencies: [
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>        .package(url: <span style="color:#e6db74">&#34;https://github.com/vapor/vapor.git&#34;</span>, from: <span style="color:#e6db74">&#34;3.0.0&#34;</span>),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>        .package(url: <span style="color:#e6db74">&#34;https://github.com/vapor/leaf.git&#34;</span>, from: <span style="color:#e6db74">&#34;3.0.1&#34;</span>)],
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>    targets: [
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>        .target(name: <span style="color:#e6db74">&#34;App&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;Vapor&#34;</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>                                            <span style="color:#e6db74">&#34;Leaf&#34;</span>]),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>        .target(name: <span style="color:#e6db74">&#34;Run&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;App&#34;</span>]),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11</span>        .testTarget(name: <span style="color:#e6db74">&#34;AppTests&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;App&#34;</span>])])</code></pre></div>
+
+<p>This will add Leaf package to your application, from this point you can use it to build sites.</p>
+
+<p>Next thing that needs to be done in the app is render configuration, we need to tell the app that we now have Leaf and we would prefer to use new Renderer. To do this we just need import Leaf framework in <code>configure.swift</code> file and add that line at the end of <code>configure</code> function:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">configure</span>(<span style="color:#66d9ef">_</span> config: <span style="color:#66d9ef">inout</span> Config, <span style="color:#66d9ef">_</span> env: <span style="color:#66d9ef">inout</span> Environment, <span style="color:#66d9ef">_</span> services: <span style="color:#66d9ef">inout</span> Services) <span style="color:#66d9ef">throws</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#75715e">/* ... */</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    config.prefer(LeafRenderer.<span style="color:#66d9ef">self</span>, <span style="color:#66d9ef">for</span>: ViewRenderer.<span style="color:#66d9ef">self</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    <span style="color:#75715e">/* ... */</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>}</code></pre></div>
+
+<p>Now the only thing to do is prepare html templates. There is one default directory that is used by Leaf to look for web pages, it is called <code>Resources</code> and inside it a directory called <code>Views</code>, (<code>./Resources/Views</code>). Important thing is to create it in application root directory like this</p>
+
+<p><img src="/images/vapor_resources_views.png" alt="vapor resources views" /></p>
+
+<p>Now you are ready to create first templates. In <code>Xcode</code> just select <code>New File</code> and from Other types select Empty and call it <code>index.leaf</code>. This way Leaf will know that it should render this file with injected context. Now I will show you an example content for this kind of file:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;en&#34;</span>&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>&lt;<span style="color:#f92672">head</span>&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span>&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span> /&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>&lt;<span style="color:#f92672">title</span>&gt;Welcome vapor template&lt;/<span style="color:#f92672">title</span>&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>&lt;/<span style="color:#f92672">head</span>&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>&lt;<span style="color:#f92672">body</span>&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>    #if(name) {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>        &lt;<span style="color:#f92672">h1</span>&gt;Welcome #(name)&lt;/<span style="color:#f92672">h1</span>&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>    } else {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>        &lt;<span style="color:#f92672">h1</span>&gt;Welcome&lt;/<span style="color:#f92672">h1</span>&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12</span>&lt;/<span style="color:#f92672">body</span>&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13</span>&lt;/<span style="color:#f92672">html</span>&gt;</code></pre></div>
+
+<p>This file will be rendered as our index file. You can clearly see that it is just a simple html with some additional leaf tags. Here I used <code>#if</code> tag to check if variable <code>name</code> was passed into this template, if it was then I am using it to print welcome with <code>name</code> and if not then just a simple welcome.</p>
+
+<p>I think it is clear how this part works, there is a lot tags you can use in templates I recommend looking into (leaf documentation)[<a href="https://docs.vapor.codes/3.0/leaf/overview/">https://docs.vapor.codes/3.0/leaf/overview/</a>].
+What you might wonder now it how this context is passed into the page. This is done by some magic in router. Let me show you example index route and then I will explain it all step by step:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">IndexContext</span>: Codable {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>    <span style="color:#66d9ef">let</span> name: String
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">routes</span>(<span style="color:#66d9ef">_</span> router: Router) <span style="color:#66d9ef">throws</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>    router.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;&#34;</span>) { (request) -&gt; Future&lt;View<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">try</span> request.view().render(<span style="color:#e6db74">&#34;index&#34;</span>, IndexContext(name: <span style="color:#e6db74">&#34;Vapor&#34;</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>}</code></pre></div>
+
+<p>Sample Vapor app has this file called <code>routes.swift</code> that you already know about, There you can declare routes handled by the app. I decided that going under empty route(line 6) so basically going to our server address <code>http://localhost:8080</code> I want it to render my index template and that what is going on in line 7.
+You can also see that I declared simple <code>struct</code> called <code>IndexContext</code>(line 0) that contain value <code>name</code> of type <code>String</code>. This is a page context that I am also passing to Leaf in line 7. If you look at leaf template above you can see that when I&rsquo;m checking <code>name</code> variable it is actually a variable from this <code>IndexContext</code>, this structure values are passed down to the template and you don&rsquo;t have to do anything like <code>context.name</code> it is already there.
+This is just a dummy example of how values can be passed into Leaf templates but I think you can already see the possibilities and power of Leaf. You can pass there information extracted from database, whole models and by creating templates, tell them how to render the View without duplicating code. Whole logic can be done in Context, a Model for Leaf template, a dummy view Layer when you think of it in standard web MVC context.</p>
+
+<h1 id="fluent">Fluent</h1>
+
+<p>Now it is finally time to introduce you to Vapor persistance layer called <a href="https://github.com/vapor/fluent">Fluent</a>. It is Swift ORM framework for integration with SQL and NoSQL databases. According to <a href="http://beta.docs.vapor.codes/fluent/database/">documentation</a> databases that are officially supported are MySQL, SQLite and Memory, there is also unofficial support for PostgreSQL and MongoDB, I personally tested PostgreSQL and it worked just fine for me, here I want to focus on one of the supported ones like MySQL.</p>
+
+<h2 id="mysql-local-setup">MySQL Local Setup</h2>
+
+<p>To setup MySQL database locally I recommend using <a href="https://docs.docker.com/docker-for-mac/install/">docker</a> this will assure you that we have same environment. First you need MySQL docker image so if you already have docker <a href="https://docs.docker.com/docker-for-mac/install/">installed</a> just run this in Terminal:</p>
+
+<pre><code>docker pull mysql:5.7.23
+</code></pre>
+
+<p>This will download container, now to run it with proper parameters try:</p>
+
+<pre><code>docker run -p 3306:3306 -e MYSQL_DATABASE=db_name -e MYSQL_ROOT_PASSWORD=root mysql:5.7.23
+</code></pre>
+
+<p>So, what is going on here, we are running the container on <code>localhost</code>, port number <code>3306</code>, we are also passing <code>root</code> password and a default database name to be created.</p>
+
+<p>Done, now you have running MySQL database with <code>root</code> user and default database schema <code>db_name</code>.</p>
+
+<h2 id="adding-fluent-dependency">Adding Fluent dependency</h2>
+
+<p>Ok, so to actually use Fluent in project we need to add it as a project dependency in SPM. Open <code>Package.swift</code> and in <code>dependencies</code> array add new entry:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>.package(url: <span style="color:#e6db74">&#34;https://github.com/vapor/fluent-mysql.git&#34;</span>, from: <span style="color:#e6db74">&#34;3.0.0-rc&#34;</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span><span style="color:#75715e">/* ... */</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>.target(name: <span style="color:#e6db74">&#34;App&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;FluentMySQL&#34;</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>                                            <span style="color:#e6db74">&#34;Vapor&#34;</span>]</code></pre></div>
+
+<p>Now to update the project with new dependency run</p>
+
+<pre><code>vapor update
+</code></pre>
+
+<p>from terminal, this will download dependency and if you are using Xcode it will also regenerate and reopen project.</p>
+
+<p>Now to create connection between Vapor app and our new database we need to add some configuration in <code>configure(...)</code> function from <code>configure.swift</code> file:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">try</span> services.register(FluentMySQLProvider())
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span><span style="color:#66d9ef">let</span> hostname = Environment.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;MYSQL_HOST&#34;</span>) ?? <span style="color:#e6db74">&#34;localhost&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span><span style="color:#66d9ef">let</span> portString = Environment.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;MYSQL_PORT&#34;</span>) ?? <span style="color:#e6db74">&#34;3306&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span><span style="color:#66d9ef">let</span> username = Environment.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;MYSQL_USERNAME&#34;</span>) ?? <span style="color:#e6db74">&#34;root&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span><span style="color:#66d9ef">let</span> password = Environment.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;MYSQL_PASSWORD&#34;</span>) ?? <span style="color:#e6db74">&#34;root&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span><span style="color:#66d9ef">let</span> schema = Environment.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;MYSQL_DATABASE&#34;</span>) ?? <span style="color:#e6db74">&#34;db_name&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span><span style="color:#66d9ef">let</span> mysqlConfig = MySQLDatabaseConfig(hostname: hostname,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>                                        port: Int(portString)<span style="color:#f92672">!</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>                                        username: username,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>                                        password: password,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11</span>                                        database: schema)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14</span><span style="color:#66d9ef">let</span> mysql = MySQLDatabase(config: mysqlConfig)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15</span><span style="color:#66d9ef">var</span> databases = DatabasesConfig()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16</span>databases.add(database: mysql, <span style="color:#66d9ef">as</span>: .mysql)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17</span>services.register(databases)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19</span><span style="color:#66d9ef">var</span> migrations = MigrationConfig()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20</span>services.register(migrations)</code></pre></div>
+
+<p>This is a lot of code, but it is really simple. Here I choose to create a configuration with environment variables. First thing to do in line 0 is to register MySQL Fluent Provider, now from 2-6 we are reading environment variables and defaulting to local setup, in line 7 we create configuration with this variables and now we can create database connection and register it in services (lines 14-17), last thing to do is add some code to handle migrations&hellip;when we will have some models to migrate this part will be more important.</p>
+
+<p>And done, now if you run the project you should see in a console log something like</p>
+
+<pre><code>...Migrating 'mysql' database...
+</code></pre>
+
+<p>This means that everything is working correctly 👍</p>
+
+<h2 id="creating-fluent-model">Creating Fluent Model</h2>
+
+<p>It is time to create our first ORM model. Make a new file called <code>User.swift</code> with this content:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vapor</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">FluentMySQL</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span><span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>    <span style="color:#66d9ef">var</span> id: Int?
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>    <span style="color:#66d9ef">var</span> password: String
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>    <span style="color:#66d9ef">var</span> uuid: String
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">User</span>: MySQLModel {}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">User</span>: Migration {}</code></pre></div>
+
+<p>If you look at the top structure declaration, you will see that this is just a normal value type we all know, but what makes it really ready for Fluent is in the extensions section. Here you can see the conformance to <code>MySQLModel</code> and <code>Migration</code>. Important to address here is the fact that conforming to <code>MySQLModel</code> forces us to have a property:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">var</span> id: ID? { <span style="color:#66d9ef">get</span> <span style="color:#66d9ef">set</span> }</code></pre></div></p>
+
+<p>And you probably guessed it, this is a database id that will be used by MySQL 👏. There is also a possibility to just conform to <code>Model</code> protocol that will force us to provide information what is considered an <code>id</code> field for this entity using Key Value Codding, but <code>MySQLModel</code> does it for us in default protocol extension. Conformance to <code>Migration</code> protocol gives us ability to perform migration that will create table for this model, there are also two by default empty functions regarding migrations that we can implement:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">prepare</span>(on conn: MySQLConnection) -&gt; Future&lt;Void<span style="color:#f92672">&gt;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">revert</span>(on conn: Database.Connection) -&gt; Future&lt;Void<span style="color:#f92672">&gt;</span></code></pre></div></p>
+
+<p><code>prepare</code> is used usually for creating table, updating columns etc, and <code>revert</code> is usually for dropping table.
+So what we need to do to make migration? Remember the migration part from <code>configure.swift</code> we need to add this migration there:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">var</span> migrations = MigrationConfig()
+<span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>migrations.add(model: User.<span style="color:#66d9ef">self</span>, database: .mysql)
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>services.register(migrations)</code></pre></div>
+Line 1 is the new one here, we are registering this migration and server when starting will perform this and store information inside <code>fluent</code> table, it will look something like this:</p>
+
+<pre><code>|id|name|batch|createdAt|updatedAt|
+| e?hs?M?G??V ?|User|1|2018-10-30 09:22:12.672274|2018-10-30 09:22:12.672274|
+</code></pre>
+
+<p>And done, now you have a functioning Model that can be used in application. As you already know by adding Conformance to other protocols like <code>Content</code> you can actually use this model as a body of your POST request to create new <code>User</code> in database.</p>
+
+<h2 id="future">Future&hellip;</h2>
+
+<p>Now it is time to present you the only thing that I think is not so easy to comprehend at first. Unless you already meet with them, cause this is indeed the same <a href="https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html">Future</a> as you can meet in Java or <a href="https://docs.python.org/3/library/asyncio-task.html">asyncio python</a>. But if you still don&rsquo;t have any clue what is it I will explain it now. We already mentioned that Vapor 3.0 works on top of Swift-NIO that is basically an low level event framework, thanks to that we can perform many concurrent no blocking operations, and to represent that kind of operation in Vapor we can use <code>Future</code>. I think that the best way to learn something is to write some sample code and see how it works. So let&rsquo;s do that.</p>
+
+<h3 id="creating-user">Creating User</h3>
+
+<p>We already have this <code>User</code> so let us work with that, first add conformance to <code>Content</code> and <code>Parameter</code> protocols to be able to use User as a body and parameter for request:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#75715e">// User.swift</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">User</span>: Content {}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">User</span>: Parameter {}</code></pre></div></p>
+
+<p>Next let&rsquo;s add route to create new user:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#75715e">// routes.swift</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>router.post(User.<span style="color:#66d9ef">self</span>, at: <span style="color:#e6db74">&#34;user&#34;</span>) { (request, user) -&gt; Future&lt;User<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    <span style="color:#66d9ef">return</span> user.save(on: request)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>}</code></pre></div></p>
+
+<p>You probably already noticed that we are now using <code>Future</code> here, but why? Saving data to database is a blocking operation, it might take less then a second or it might take more then a minute it depends on many conditions so here it is actually send to be done as a background task called <code>Future</code> and we declare that as a result of this saved user we will Return new User object. Let&rsquo;s try this out:</p>
+
+<pre><code>curl --request POST --data '{&quot;uuid&quot;: &quot;d1a76cc2-e1ef-11e8-9f32-f2801f1b9fd1&quot;, &quot;password&quot;: &quot;secret&quot;}' \
+--header &quot;Content-Type: application/json&quot; \
+http://localhost:8080/user
+</code></pre>
+
+<p>and in result I see:</p>
+
+<pre><code>{
+    &quot;id&quot;:&quot;1&quot;,
+    &quot;uuid&quot;:&quot;d1a76cc2-e1ef-11e8-9f32-f2801f1b9fd1&quot;,
+    &quot;password&quot;:&quot;secret&quot;
+}
+</code></pre>
+
+<p>This is super nice! Fluent makes working with Futures much easier cause it delegates most of the work by default to be done in the background and the result will come in <code>Future</code> and will be returned to you to do something with it.</p>
+
+<h3 id="extracting-user">Extracting User</h3>
+
+<p>Let&rsquo;s try something else, like using our model as a route parameter since we already added conformance to the <code>Parameter</code> protocol we can do this:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#75715e">// routes.swift</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>router.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;users&#34;</span>, User.parameter) { req -&gt; Future&lt;User<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">try</span> req.parameters.next(User.<span style="color:#66d9ef">self</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>}</code></pre></div></p>
+
+<p>Ok but exactly is going on? Request object that is available in every implementation of route closure has a connection to database, it can also look for parameters in the request. Here we are telling to our router that after <code>/user/</code> we are expecting a <code>User.parameter</code>, but <code>User</code> is an object and we cannot use it as a single path parameter&hellip;right, we can&rsquo;t but we can use its id 😱. Look at the result JSON that was returned from endpoint for creating new users, there is a id <code>1</code>, now with this implementation we can use this id as a route parameter like this <a href="http://localhost:8080/users/1/">http://localhost:8080/users/1/</a> and it should return again <code>User</code> object from our database in JSON form and we managed to do all this without actually doing a lot of writing, most of this stuff is available out of the box with Vapor and Fluent&hellip;it is pretty sweet 😍.</p>
+
+<h1 id="authentication">Authentication</h1>
+
+<p>Ok so we now know how to create routes, pass data to our service, store this data however we would like to, and return data, we also looked at Leaf that can help us present this data in form of HTML pages. Last thing that I find necessary to have is some kind of authentication method. You probably already guessed, there is a swift package for Vapor that do just that and it is called <a href="https://github.com/vapor/auth">Auth</a>.</p>
+
+<p>Again first we need to add it to our SPM:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>dependencies: [
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>        ...
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>        .package(url: <span style="color:#e6db74">&#34;https://github.com/vapor/auth.git&#34;</span>, from: <span style="color:#e6db74">&#34;2.0.1&#34;</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    ],
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>    targets: [
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>        .target(name: <span style="color:#e6db74">&#34;App&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;Authentication&#34;</span>, ...]),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6</span>        .target(name: <span style="color:#e6db74">&#34;Run&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;App&#34;</span>]),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">7</span>        .testTarget(name: <span style="color:#e6db74">&#34;AppTests&#34;</span>, dependencies: [<span style="color:#e6db74">&#34;App&#34;</span>])
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">8</span>    ]</code></pre></div>
+
+<p>To use <code>Authentication</code> framework we need to register it in configuration function from <code>configure.swif</code> file, like this:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Authentication</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>...
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">configure</span>(<span style="color:#66d9ef">_</span> config: <span style="color:#66d9ef">inout</span> Config,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>                      <span style="color:#66d9ef">_</span> env: <span style="color:#66d9ef">inout</span> Environment, <span style="color:#66d9ef">_</span> services: <span style="color:#66d9ef">inout</span> Services) <span style="color:#66d9ef">throws</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span><span style="color:#66d9ef">try</span> services.register(AuthenticationProvider())
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>...</code></pre></div>
+
+<p>Now everything is ready to make what exactly? Vapor <code>Authentication</code> frameworks provides these types of authorization:</p>
+
+<ol>
+<li>Basic authorization</li>
+<li>Bearer authorization</li>
+<li>Web authentication with Session</li>
+<li>OAuth 2.0 supported by <a href="https://github.com/vapor-community/Imperial">Imperial</a></li>
+</ol>
+
+<p>There is a lot, and It would require a lot of time to cover everything so I will only cover in detail Basic Authorization and I will try briefly write about others.</p>
+
+<h2 id="basic-authorization">Basic Authorization</h2>
+
+<p>Basic authentication is the simplest technique of access control, it requires user to constantly send HTTP header field that contains username and password, it is also the weakest cause it provides no security for transported credentials, just a <a href="https://en.wikipedia.org/wiki/Base64">Base64</a> encoding.</p>
+
+<p>So, we already have database connected to our service and we have this <code>User</code> model, so now let&rsquo;s add this:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Authentication</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>...
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">User</span>: BasicAuthenticatable {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> usernameKey: UsernameKey {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>        <span style="color:#66d9ef">return</span> <span style="color:#960050;background-color:#1e0010">\</span>User.uuid
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> passwordKey: PasswordKey {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>        <span style="color:#66d9ef">return</span> <span style="color:#960050;background-color:#1e0010">\</span>User.password
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>}</code></pre></div>
+
+<p>We are adding conformance to <code>BasicAuthenticatable</code> protocol, to do this we need to tell the protocol which properties will be treated as <code>username</code> and <code>password</code> and we are doing this above. Now to make sure we will NEVER EVER save our password as a plain text, add this:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Crypto</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>...
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span><span style="color:#66d9ef">init</span>(id: Int? = <span style="color:#66d9ef">nil</span>, uuid: String, password: String) <span style="color:#66d9ef">throws</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    <span style="color:#66d9ef">self</span>.id = id
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>    <span style="color:#66d9ef">self</span>.uuid = uuid
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>    <span style="color:#66d9ef">self</span>.password = <span style="color:#66d9ef">try</span> BCrypt.hash(password)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6</span>}</code></pre></div>
+
+<p>Here we added <code>Crypto</code> framework that ia available because it is a dependency on <code>Authentication</code> framework, so we now can use it inside <code>User</code> <code>init</code> to make sure that every created User will have hashed password. Ok, so now we have a model conforms to basic authentication. What else we need to do is decide on what routes are behind auth and what are not. So where we should do this, of course in
+<code>routes.swift</code>, but to keep things organized let us create new <code>RouteCollection</code> called <code>BasicAuthRouter</code> where we will add new route that will extract users, whole thing should look like that:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Authentication</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vapor</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BasicAuthRouter</span>: RouteCollection {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">boot</span>(router: Router) <span style="color:#66d9ef">throws</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>        <span style="color:#66d9ef">let</span> basicAuthMiddleware = User.basicAuthMiddleware(using: BCryptDigest())
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>        <span style="color:#66d9ef">let</span> guardAuthMiddleware = User.guardAuthMiddleware()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>        <span style="color:#66d9ef">let</span> protected = router.grouped(basicAuthMiddleware,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>                                       guardAuthMiddleware)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11</span>        protected.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;users&#34;</span>) { (request) -&gt; Future<span style="color:#f92672">&lt;</span>[User]<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12</span>            <span style="color:#66d9ef">return</span> User.query(on: request).all().map({ (users) <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13</span>                <span style="color:#66d9ef">return</span> users
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14</span>            })
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15</span>        }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17</span>}</code></pre></div>
+
+<p>And done! If you now go under <a href="http://localhost:8080/users">http://localhost:8080/users</a> you will see something like this:</p>
+
+<p><img src="/images/no_auth_user.png" alt="no_auth_user" /></p>
+
+<p>Hm&hellip;did I just blocked myself forever from accessing my own app? Cause I don&rsquo;t have any user in database&hellip;ok I can create POST endpoint that will create user for me, and we actually already did that, but that endpoint should also be moved here under protected routes, we would not want to have it exposed to the world! So what can we do now&hellip;🤔&hellip;well we can migrate new user 😱.</p>
+
+<p>So far we did nothing regarding migration except adding new <code>User</code> model that creates table in MySQL database. Now we will learn how to use migration mechanic to create admin user, let&rsquo;s create new file <code>AdminUser.swift</code>:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vapor</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">FluentMySQL</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AdminUser</span>: Migration {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>    <span style="color:#66d9ef">typealias</span> Database = MySQLDatabase
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">prepare</span>(on conn: MySQLConnection) -&gt; EventLoopFuture&lt;Void<span style="color:#f92672">&gt;</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>        <span style="color:#66d9ef">guard</span> <span style="color:#66d9ef">let</span> password = Environment.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;MULTIPASS&#34;</span>),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>            <span style="color:#66d9ef">let</span> uuid = Environment.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;MULTIPASS_UUID&#34;</span>),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>            <span style="color:#66d9ef">let</span> user = <span style="color:#66d9ef">try</span>? User(uuid: uuid,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11</span>                                 password:  password) <span style="color:#66d9ef">else</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12</span>            fatalError(<span style="color:#e6db74">&#34;UNABLE TO ADD ADMIN USER 😱&#34;</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13</span>        }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14</span>        <span style="color:#66d9ef">return</span> user.save(on: conn).transform(to: ())
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">revert</span>(on conn: MySQLConnection) -&gt; EventLoopFuture&lt;Void<span style="color:#f92672">&gt;</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18</span>        <span style="color:#66d9ef">return</span> .done(on: conn)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20</span>}</code></pre></div>
+
+<p>So what is going on here. Everything is happening in <code>prepare</code> function like in normal migration, here we are creating <code>User</code> model and saving it, so after our server will start, this user will already be inserted into database. Password and UUID for this user is taken from environment variable, remember that you can pass environment variables like this:</p>
+
+<p><img src="/images/xcode_env_vars.png" alt="xcode_env_vars" /></p>
+
+<p>Now if you want to actually perform the migration you need to add it in <code>configure.swift</code> like that:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">var</span> migrations = MigrationConfig()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>migrations.add(model: User.<span style="color:#66d9ef">self</span>, database: .mysql)
+<span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>migrations.add(migration: AdminUser.<span style="color:#66d9ef">self</span>, database: .mysql)
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>services.register(migrations)</code></pre></div>
+
+<p>If you will run the server, it will perform new migration:</p>
+
+<pre><code>Preparing migration 'AdminUser'...
+</code></pre>
+
+<p>To check if this works, we can try to curl our secured endpoint, but to do that we need to prepare basic auth header. We know that our admin username is actually and uuid: <code>2B423396-F4BA-45B5-BBDA-20EE296BF970</code> and password: <code>password</code>. Basic auth requires base64 encoded values <code>username:password</code> so let&rsquo;s do something like that using Swift REPL:</p>
+
+<pre><code>  1&gt; import Foundation 
+  2. let str = &quot;2B423396-F4BA-45B5-BBDA-20EE296BF970:password&quot; 
+  3. let data = str.data(using: .utf8)! 
+  4. let header = &quot;authorization:Basic \(String(data: data.base64EncodedData(), encoding: .utf8)!)&quot;
+str: String = &quot;2B423396-F4BA-45B5-BBDA-20EE296BF970:password&quot;
+data: Data = 45 bytes
+header: String = &quot;authorization:Basic Optional(\&quot;MkI0MjMzOTYtRjRCQS00NUI1LUJCREEtMjBFRTI5NkJGOTcwOnBhc3N3b3Jk\&quot;)&quot;
+</code></pre>
+
+<p>You can copy and paste this into console and it will return your version of Basic auth header if you used same username and password to create <code>AdminUser</code> you can copy the result from here.
+Now copy content of <code>header</code> variable, it will be a base64 encoded username and password that needs to go with the curl request that should look like that:</p>
+
+<pre><code>curl \
+--header &quot;Authorization:Basic MkI0MjMzOTYtRjRCQS00NUI1LUJCREEtMjBFRTI5NkJGOTcwOnBhc3N3b3Jk&quot; \
+--header &quot;content-type: application/json&quot; \
+http://localhost:8080/users
+</code></pre>
+
+<p>And now you should see that you have full access to secured endpoint and the result should look like this:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>[
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>  {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    <span style="color:#f92672">&#34;uuid&#34;</span>: <span style="color:#e6db74">&#34;2B423396-F4BA-45B5-BBDA-20EE296BF970&#34;</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>    <span style="color:#f92672">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;$2b$12$GEX5aviSdY3RWN3HRkzE6uvTobeCwpuh/KV2K4AL1s17QS6Vy7CJa&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>  }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6</span>]</code></pre></div></p>
+
+<p>Ok, what is wrong here? We are listing whole data for our <code>User</code>, even password, ok it is hashed but still we should not do that and there is an easy way to hide that. We will create an internal User model called <code>PublicUser</code></p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Public</span>: Codable, Content {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">let</span> id: String
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    <span style="color:#66d9ef">let</span> uuid: String
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>}</code></pre></div>
+
+<p>As you can see there is no password field here, so it will never be displayed 👏.
+So the only thing is to perform the transformation from <code>User</code> to <code>PublicUser</code> we will do this inside helper method in <code>User</code> model:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">publicUser</span>() -&gt; Public {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">return</span> Public(id: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">\(</span>id<span style="color:#f92672">!</span><span style="color:#e6db74">)</span><span style="color:#e6db74">&#34;</span>, uuid: uuid)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>}</code></pre></div>
+Now we can use this helper method inside router function:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>protected.<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;users&#34;</span>) { (request) -&gt; Future<span style="color:#f92672">&lt;</span>[User.Public]<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>    <span style="color:#66d9ef">return</span> User.query(on: request).all().map({ (users) <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>        <span style="color:#66d9ef">return</span> users.map({$0.publicUser()})
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    })
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>}</code></pre></div>
+If you now try previous curl, you should see something like this:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>[
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>  {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3</span>    <span style="color:#f92672">&#34;uuid&#34;</span>: <span style="color:#e6db74">&#34;2B423396-F4BA-45B5-BBDA-20EE296BF970&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4</span>  }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5</span>]</code></pre></div></p>
+
+<p>No password is visible now, remember to hide all of the vulnerable data that you keep in your database.</p>
+
+<h2 id="bearer-authorization">Bearer authorization</h2>
+
+<p>This type of authorization is based on tokens that are saved in database. When user tries to log in password and username are passed and server after authenticating the user, server will generate a token and will return this token back to the client. Then if user wants to call any secured endpoint, there is no need to pass username and password again, just the token is needed. This way we do not have to pass username and password in headers that is not secured at all. Token generated on server usually is valid only for some time like an hour or even less. After that, new request for the token needs to be performed to authenticate user and return new token or refresh old one.</p>
+
+<p>Now how to implement this in Vapor. First we need to create <code>Token</code> class.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Token</span>: Codable, MySQLModel, Content {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>    <span style="color:#66d9ef">var</span> id: Int?
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>    <span style="color:#66d9ef">var</span> token: String
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span>    <span style="color:#66d9ef">var</span> userID: User.ID
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>    <span style="color:#66d9ef">init</span>(token: String, userID: User.ID) {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>        <span style="color:#66d9ef">self</span>.token = token
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>        <span style="color:#66d9ef">self</span>.userID = userID
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Token</span>: Migration {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">prepare</span>(on connection: MySQLConnection) -&gt; Future&lt;Void<span style="color:#f92672">&gt;</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12</span>        <span style="color:#66d9ef">return</span> Database.create(<span style="color:#66d9ef">self</span>, on: connection, closure: { (builder) <span style="color:#66d9ef">in</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13</span>            <span style="color:#66d9ef">try</span> addProperties(to: builder)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14</span>            builder.reference(from: <span style="color:#960050;background-color:#1e0010">\</span>Token.userID, to: <span style="color:#960050;background-color:#1e0010">\</span>User.id)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15</span>        })
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17</span>}</code></pre></div></p>
+
+<p>As you can see in the <code>Migration</code> extension we are adding a reference to another entity, this way our User entity will be connected to Token and we will always be able to determine a valid token for user. Of course we need to add this migration in <code>configure.swift</code> file. We also could create a simple generate token function that will automatically create new token for user when logging in.</p>
+
+<p>Ok but to actually make token auth mechanism, we also need to make <code>Token</code> model conform to <code>Token</code> protocol and <code>User</code> model conform to <code>TokenAuthenticatable</code> like this:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">User</span>: TokenAuthenticatable {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>    <span style="color:#66d9ef">typealias</span> TokenType = Token
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Token</span>: Authentication.Token {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> userIDKey: UserIDKey = <span style="color:#960050;background-color:#1e0010">\</span>Token.userID
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>    <span style="color:#66d9ef">typealias</span> UserType = User
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>    <span style="color:#66d9ef">typealias</span> UserIDType = User.ID
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> tokenKey: TokenKey = <span style="color:#960050;background-color:#1e0010">\</span>Token.token
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11</span>}</code></pre></div></p>
+
+<p>Now <code>Authentication</code> framework will know how to connect <code>User</code> and <code>Token</code> models.
+There is also some work that needs to be done in <code>router.swift</code> or in new class that will be a <code>RouteCollection</code> for your secured data.</p>
+
+<p>I highly recommend to try this out. Of course this is not all, cause we should also provide some mechanism for <code>Token</code> expiration and renewal but that itself is a subject for a whole new post.</p>
+
+<h2 id="web-session">Web Session</h2>
+
+<p>So now you should be aware of two different types for authentication. These methods were only for protecting your API and it is not possible to use them in web browser for example as there is no possibility to add custom headers to browser request. But to be able to handle browser auth you need to use <code>Sessions</code>. This is a smart mechanism to persist user access information across many requests. In Vapor they are handled with a middleware, so first you need to add this in <code>configure.swift</code>:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span>middlewares.use(SessionsMiddleware.<span style="color:#66d9ef">self</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1</span>...
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2</span>config.prefer(MemoryKeyedCache.<span style="color:#66d9ef">self</span>, <span style="color:#66d9ef">for</span>: KeyedCache.<span style="color:#66d9ef">self</span>)</code></pre></div>
+
+<p>First line configures server session middleware and last one defines Memory Cache that will work as a Key-Value cache for sessions. Next we need to add conformance to <code>PasswordAuthenticatable</code> and <code>SessionAuthenticatable</code> for <code>User</code> model, first will allow Vapor to authenticate user with username and password. Next protocol is for allowing Vapor to store and retrieve necessary user session information in Key-Value cache.</p>
+
+<p>Whole this should allow you to build routes that are hidden behind Session auth</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">0</span><span style="color:#66d9ef">let</span> authSessionRoutes = router.grouped(User.authSessionsMiddleware())</code></pre></div>
+
+<p>The only thing that is missing is building a login page for User to enter username and password but I leave this for you to figure out 😉</p>
+
+<h2 id="oauth">OAuth</h2>
+
+<p>This method is more a open standard for authenticating than a method of authentication. Generally you are authenticating in 3rd party like Google that assures about your credibility to access data on server for example. So when you click <code>Login with Google</code> you are authenticated in Google that gives this application a token that can be used to validate your access to other server resources. Implementing this kind of mechanism in Vapor can be done by using <a href="https://github.com/vapor-community/Imperial">Imperial</a> it handles Github and Google as a OAuth providers for now. If you would like to implement this I recommend reading the source guide available <a href="https://github.com/vapor-community/Imperial/blob/master/docs/Google/README.md">here</a>.</p>
+
+<h1 id="testing">Testing</h1>
+
+<p>What is really important ine every project is to have a good test coverage. And you can do this in Vapor to. Let&rsquo;s now add some test to the routes we created.</p>
+
+<p>I recommend creating a helper extension for <code>Application</code> to save a lot of code duplication in tests:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Application</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">startTestApp</span>() -&gt; Application {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span>        <span style="color:#66d9ef">do</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>            <span style="color:#66d9ef">var</span> app: Application<span style="color:#f92672">!</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>            <span style="color:#66d9ef">var</span> env = <span style="color:#66d9ef">try</span> Environment.detect()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>            <span style="color:#66d9ef">var</span> services = Services.<span style="color:#66d9ef">default</span>()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>            <span style="color:#66d9ef">var</span> config = Config.<span style="color:#66d9ef">default</span>()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>            env.commandInput.arguments = []
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11</span>            <span style="color:#66d9ef">try</span> App.configure(&amp;config, &amp;env, &amp;services)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13</span>            app = <span style="color:#66d9ef">try</span> Application(
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14</span>                config: config,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15</span>                environment: env,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16</span>                services: services
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17</span>            )
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19</span>            <span style="color:#66d9ef">try</span> App.boot(app)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20</span>            <span style="color:#66d9ef">try</span> app.asyncRun().wait()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21</span>            <span style="color:#66d9ef">return</span> app
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22</span>        } <span style="color:#66d9ef">catch</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">23</span>            fatalError(<span style="color:#e6db74">&#34;Unable to start App in tests&#34;</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">24</span>        }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">25</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">26</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">27</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">stopTestApp</span>(<span style="color:#66d9ef">_</span> app: Application) {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">28</span>        <span style="color:#66d9ef">try</span>? app.runningServer?.close().wait()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">29</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">30</span>}</code></pre></div>
+
+<p><code>startTestApp</code> is a method called in every test <code>setUp</code> function from <code>XCTestCase</code> and <code>stopTestApp</code> will be called on <code>tearDown</code> function. This function is actually running our server with test environment and test configuration that you can change as you like, I used default configuration here.
+I also like creating something like <code>BaseTestCase</code> class that will provide all necessary properties to use in test</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BaseTestCase</span>: XCTestCase {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>    <span style="color:#66d9ef">var</span> app: Application<span style="color:#f92672">!</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>    <span style="color:#66d9ef">var</span> connection: MySQLConnection<span style="color:#f92672">!</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">setUp</span>() {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>        app = Application.startTestApp()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>        connection = <span style="color:#66d9ef">try</span><span style="color:#f92672">!</span> app.newConnection(to: .mysql).wait()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">tearDown</span>() {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>        Application.stopTestApp(app)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12</span>}</code></pre></div>
+
+<p>Now I can use this class as a base to every test case I would like to write. It will call <code>setUp</code> and <code>tearDown</code> functions for me and it will provide <code>app</code> property to use in tests. So let&rsquo;s write a simple test case that will call our server main route, that is a <code>http://localhost:8080</code> and will check if server responded with <code>ok</code> status:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 0</span><span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SampleRouteTests</span>: BaseTestCase {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2</span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">testSampelRoute</span>() <span style="color:#66d9ef">throws</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3</span>        <span style="color:#66d9ef">let</span> response = <span style="color:#66d9ef">try</span>? app.client().<span style="color:#66d9ef">get</span>(<span style="color:#e6db74">&#34;http://localhost:8080&#34;</span>).wait()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4</span>        XCTAssert(response?.http.status == .ok)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5</span>    }
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7</span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">let</span> allTests = [
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8</span>        (<span style="color:#e6db74">&#34;testSampelRoute&#34;</span>, testSampelRoute)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9</span>    ]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10</span>}</code></pre></div>
+
+<p>now if you run this in Xcode by running ⌘+u or by running <code>vapor test</code> in console you should see that test passes. Writing tests in Vapor project is very easy cause you have whole environment already setup and all you have to do is check all the logic behind your routes.</p>
+
+<h1 id="deployment">Deployment</h1>
+
+<p>I think you are ready to deploy your first app, you know everything to build a great web app, but where to deploy it 🤔. There are a lot of options. You can use well known <a href="https://www.heroku.com/">Heroku</a> as it is supported or if you would like you can use <a href="https://hub.docker.com/r/vapor/vapor/">docker image for vapor</a> and deploy it in basically anywhere with access to bare metal like <a href="https://www.digitalocean.com/">DigitalOcean</a>.</p>
+
+<p>There is also a new way to setup your first vapor app online. I think this one is the easiest and is very well integrated with Vapor CLI. It is called <a href="https://vapor.cloud/">Vapor Cloud</a>. So to use this you just need to create account by going here <a href="https://dashboard.vapor.cloud/">https://dashboard.vapor.cloud/</a>, next by using vapor toolbox type in the console&rdquo;</p>
+
+<pre><code>vapor cloud login
+</code></pre>
+
+<p>Next if you are already in you vapor app directory just type in</p>
+
+<pre><code>vapor cloud deploy
+</code></pre>
+
+<p>First run of this command will ask you a lot of questions about environments and databases to use company names etc. For first time I recommend using default settings for everything. After you will see how everything works you will have a plenty of time to play around with settings. After you deployed your first app it will also appear in online <a href="https://dashboard.vapor.cloud/">dashboard</a>. Don&rsquo;t worry about payments for now, Vapor cloud provides a lot for their Free Account Users so feel free to play around with it and then decide if you want to use it.</p>
+
+<h1 id="summary">Summary</h1>
+
+<p>Wow 😲 I think we covered a lot in here! But still it is not all that you can do with Vapor, we did not even touched WebSockets that are actually a feature that you can use or advance caching where you can integrate with Redis or even auth methods, we have barely scratched the surface there. But I think it is a good place to start. I hope you now have a overview of what is Vapor how it works, how easy it is to create some basic functionality in it and if you come from Swift world then I think you will feel like you are in home with Vapor.
+Remember that the best way to learn is to try doing things yourself. I also learned a lot after reading two great books that I would like to recommend here.</p>
+
+<ol>
+<li><p>First is a <a href="https://itunes.apple.com/pl/book/server-side-swift-vapor-edition/id1389763820?mt=11">Server-Side Swift: Vapor Edition</a> from <a href="https://twitter.com/twostraws">Paul Hudson</a></p></li>
+
+<li><p>Next one is a <a href="https://store.raywenderlich.com/products/server-side-swift-with-vapor">Server Side Swift with Vapor</a> one of the great <a href="https://store.raywenderlich.com/">Ray Wenderlich</a> editions  written by members of Vapor Team.</p></li>
+</ol>
+
+<p>Have fun reading my sources or trying some of this stuff by yourself, honestly making things with Vapor is really nice and intuitive especially for someone like me who already has some Swift experience. Back in the days when I was learning iOS it was only Objective-C and to actually deliver some end-to-end solutions I had to learn other language web frameworks like Ruby on Rails or Python Django today we have Swift and it can run on server so I find it really nice that you can write mobile and backend in same language and maybe share some code between apps it is really nice.</p>
+
+<p>If you would like to check how some of the stuff we did here are working you can take a look <a href="https://github.com/riamf/vapor_app_base">here</a>. What is also really great about Vapor is that you can actually use this repository as a vapor template like this:</p>
+
+<pre><code>vapor new myProject --template=riamf/vapor_app_base
+</code></pre>
+
+<p>It will create your new project from my template where you already will have a Basic Auth with <code>User</code> model persistance layer implemented in MySQL so feel free to use it or extend it for you convenience.</p>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2friamf.github.io%2fposts%2fvapor_template_app%2f - Vapor%20template%20app by @%40riamf1"><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/riamf">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.twitter.com/riamf1">
+        <i class="fa fa-twitter-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Pawel Kowalczuk
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</footer>
+
+        </section>
+
+        <script src="https://riamf.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://riamf.github.io/js/main.js"></script>
+<script src="https://riamf.github.io/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+    </body>
+</html>

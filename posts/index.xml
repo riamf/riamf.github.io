@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Learning Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Sep 2018 11:54:05 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 25 Oct 2018 20:53:37 +0200</lastBuildDate>
     
 	<atom:link href="https://riamf.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vapor template app</title>
+      <link>https://riamf.github.io/posts/vapor_template_app/</link>
+      <pubDate>Thu, 25 Oct 2018 20:53:37 +0200</pubDate>
+      
+      <guid>https://riamf.github.io/posts/vapor_template_app/</guid>
+      <description>Vapor A long time ago in a galaxy far, far away&amp;hellip;I used Kitura to try out Swift on server. Simultaneously other frameworks were developed like Perfect and Vapor. At That time it was mostly alpha/beta versions or work in progress, it wasn&amp;rsquo;t as pleasurable as using Swift on machines with Apple sign.
+Recently I decided to go back to that idea and Vapor is what I choose to test. So what is Vapor and from where did it came.</description>
+    </item>
     
     <item>
       <title>Grafana in docker setup</title>

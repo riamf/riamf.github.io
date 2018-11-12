@@ -6,7 +6,7 @@
     <description>Recent content in Categories on Learning Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Sep 2018 11:54:05 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 25 Oct 2018 20:53:37 +0200</lastBuildDate>
     
 	<atom:link href="https://riamf.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title></title>
       <link>https://riamf.github.io/categories/</link>
-      <pubDate>Thu, 06 Sep 2018 11:54:05 +0200</pubDate>
+      <pubDate>Thu, 25 Oct 2018 20:53:37 +0200</pubDate>
       
       <guid>https://riamf.github.io/categories/</guid>
       <description></description>
@@ -27,10 +27,6 @@
       
       <guid>https://riamf.github.io/categories/statistics/</guid>
       <description></description>
-    </item>
-    
-  </channel>
-</rss>erstand how your system is used. With a system of alerts it tell you about bottlenecks that you might not know of, like moments in time when your system is overloaded and you database is dying.</description>
     </item>
     
   </channel>
