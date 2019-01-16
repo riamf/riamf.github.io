@@ -6,7 +6,7 @@
     <description>Recent content in Categories on Learning Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 25 Oct 2018 20:53:37 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 06 Sep 2018 11:54:05 +0200</lastBuildDate>
     
 	<atom:link href="https://riamf.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,27 @@
     <item>
       <title></title>
       <link>https://riamf.github.io/categories/</link>
-      <pubDate>Thu, 25 Oct 2018 20:53:37 +0200</pubDate>
+      <pubDate>Thu, 06 Sep 2018 11:54:05 +0200</pubDate>
       
       <guid>https://riamf.github.io/categories/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Backend</title>
+      <link>https://riamf.github.io/categories/backend/</link>
+      <pubDate>Thu, 25 Oct 2018 20:53:37 +0200</pubDate>
+      
+      <guid>https://riamf.github.io/categories/backend/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Books</title>
+      <link>https://riamf.github.io/categories/books/</link>
+      <pubDate>Tue, 15 Jan 2019 18:20:49 +0100</pubDate>
+      
+      <guid>https://riamf.github.io/categories/books/</guid>
       <description></description>
     </item>
     
@@ -26,6 +44,15 @@
       <pubDate>Sat, 18 Aug 2018 16:08:06 +0200</pubDate>
       
       <guid>https://riamf.github.io/categories/statistics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Swift</title>
+      <link>https://riamf.github.io/categories/swift/</link>
+      <pubDate>Thu, 25 Oct 2018 20:53:37 +0200</pubDate>
+      
+      <guid>https://riamf.github.io/categories/swift/</guid>
       <description></description>
     </item>
     

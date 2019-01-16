@@ -6,10 +6,19 @@
     <description>Recent content in Tags on Learning Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Sep 2018 11:54:05 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 15 Jan 2019 18:20:49 +0100</lastBuildDate>
     
 	<atom:link href="https://riamf.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Books</title>
+      <link>https://riamf.github.io/tags/books/</link>
+      <pubDate>Tue, 15 Jan 2019 18:20:49 +0100</pubDate>
+      
+      <guid>https://riamf.github.io/tags/books/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Data Analysis</title>
@@ -23,7 +32,7 @@
     <item>
       <title>Docker</title>
       <link>https://riamf.github.io/tags/docker/</link>
-      <pubDate>Thu, 06 Sep 2018 11:54:05 +0200</pubDate>
+      <pubDate>Thu, 25 Oct 2018 20:53:37 +0200</pubDate>
       
       <guid>https://riamf.github.io/tags/docker/</guid>
       <description></description>
@@ -53,6 +62,15 @@
       <pubDate>Sat, 18 Aug 2018 16:08:06 +0200</pubDate>
       
       <guid>https://riamf.github.io/tags/statistics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Summary</title>
+      <link>https://riamf.github.io/tags/summary/</link>
+      <pubDate>Tue, 15 Jan 2019 18:20:49 +0100</pubDate>
+      
+      <guid>https://riamf.github.io/tags/summary/</guid>
       <description></description>
     </item>
     

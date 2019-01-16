@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Summary on Learning Notes</title>
+    <link>https://riamf.github.io/tags/summary/</link>
+    <description>Recent content in Summary on Learning Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 15 Jan 2019 18:20:49 +0100</lastBuildDate>
+    
+	<atom:link href="https://riamf.github.io/tags/summary/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Books of 2018</title>
+      <link>https://riamf.github.io/posts/books_of_2018/</link>
+      <pubDate>Tue, 15 Jan 2019 18:20:49 +0100</pubDate>
+      
+      <guid>https://riamf.github.io/posts/books_of_2018/</guid>
+      <description>Books of 2018 Recently I find myself reading a lot more technical books, actually in 2018 I read only technical books due to a lot of context switching between different projects. Books helped me to quickly accommodate in new technical stack. I believe they are amazing source of knowledge. Here I want to recommend some of the books I read with brief description:
+Compilers: Principles, Techniques, and Tools (2nd Edition) link</description>
+    </item>
+    
+  </channel>
+</rss>

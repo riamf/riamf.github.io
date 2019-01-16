@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://riamf.github.io/posts/books_of_2018/</loc>
+    <lastmod>2019-01-15T18:20:49+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://riamf.github.io/posts/vapor_template_app/</loc>
     <lastmod>2018-10-25T20:53:37+02:00</lastmod>
   </url>
@@ -29,13 +34,31 @@
   
   <url>
     <loc>https://riamf.github.io/categories/</loc>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://riamf.github.io/categories/backend/</loc>
     <lastmod>2018-10-25T20:53:37+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://riamf.github.io/tags/books/</loc>
+    <lastmod>2019-01-15T18:20:49+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://riamf.github.io/categories/books/</loc>
+    <lastmod>2019-01-15T18:20:49+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://riamf.github.io/categories/</loc>
-    <lastmod>2018-10-25T20:53:37+02:00</lastmod>
+    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -47,7 +70,7 @@
   
   <url>
     <loc>https://riamf.github.io/tags/docker/</loc>
-    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
+    <lastmod>2018-10-25T20:53:37+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -59,7 +82,7 @@
   
   <url>
     <loc>https://riamf.github.io/</loc>
-    <lastmod>2018-10-25T20:53:37+02:00</lastmod>
+    <lastmod>2019-01-15T18:20:49+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -71,7 +94,7 @@
   
   <url>
     <loc>https://riamf.github.io/posts/</loc>
-    <lastmod>2018-10-25T20:53:37+02:00</lastmod>
+    <lastmod>2019-01-15T18:20:49+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -88,14 +111,26 @@
   </url>
   
   <url>
+    <loc>https://riamf.github.io/tags/summary/</loc>
+    <lastmod>2019-01-15T18:20:49+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://riamf.github.io/tags/swift/</loc>
     <lastmod>2018-10-25T20:53:37+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://riamf.github.io/categories/swift/</loc>
+    <lastmod>2018-10-25T20:53:37+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://riamf.github.io/tags/</loc>
-    <lastmod>2018-09-06T11:54:05+02:00</lastmod>
+    <lastmod>2019-01-15T18:20:49+01:00</lastmod>
     <priority>0</priority>
   </url>
   
